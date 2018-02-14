@@ -1,4 +1,5 @@
 # Modifiziet von pipp37/fhem_jessie modifikationen markiert mit #mod
+# Copyright (c) 2016 Armin Pipp
 # Version 2 1/2017
 # Changes:
 # * added volumedata2.sh - extracts  data from a tgz when using empty host volumes
