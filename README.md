@@ -1,1 +1,1 @@
-# fhem-docker
+# FHEM and all dependencies
