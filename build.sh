@@ -1,3 +1,3 @@
 #!/bin/bash
-docker build -t fhem_jessie .
+docker build -t fhem-docker .
 
