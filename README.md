@@ -1,8 +1,5 @@
-[![](https://images.microbadger.com/badges/image/pipp37/fhem_jessie.svg)](https://microbadger.com/images/pipp37/fhem_jessie "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/version/pipp37/fhem_jessie.svg)](https://microbadger.com/images/pipp37/fhem_jessie "Get your own version badge on microbadger.com")
-
 ## Docker Container for FHEM House-Automation-System - Full install
-This image is the second version build 1/2017 and is debian 8 (jessie) based, includes some stuff and has several perl modules installed. It should run out of the box.
+This image is a modified version of the second version build 1/2017 of pipp37/fhem_jessie and is debian 8 (jessie) based, includes some stuff and has several perl modules installed. It should run out of the box.
 
 If using host volumes (ie. /opt/fhem) initial data are exctracted from the installation but only if the host directory is empty.
 
