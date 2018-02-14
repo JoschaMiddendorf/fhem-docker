@@ -14,15 +14,15 @@ Fhem forum thread: https://forum.fhem.de/index.php/topic,51190.0.html
 * avrdude - firmware flash
 * Python - yowsup (separate volume) for whatsapp client - volume: /opt/yowsup-config
 * Open-SSH daemon
-* Exposed ports: 2222/SSH, 7072 Fhem-raw, 8083-8085 Fhem Web, 9001 supervisord (** new **)
+* Exposed ports: 2222/SSH, 7072 Fhem-raw, 8083-8085 Fhem Web, 9001 supervisord
 * supervisord for fhem
-* changed running fhem system checked with a pid-controlled script and totaly controlled from supervisord (** new **)
-* supervisord for sshd (** new **) 
+* changed running fhem system checked with a pid-controlled script and totaly controlled from supervisord
+* supervisord for sshd
 * cron daemon / at
 * NFS client and autofs /net
 * ssh root password: fhem!
 * USB tools for CUL hardware
-* supervisor web-ui at port 9001 (user:admin pass:admin) (** new **)
+* supervisor web-ui at port 9001 (user:admin pass:admin)
 
 ### Run:
     docker run -d --name fhem --cap-add SYS_ADMIN -p 7072:7072 -p 8083:8083 -p 8084:8084 -p 8085:8085 -p 2222:2222 -p 9001:9001 diggewuff/fhem-docker
