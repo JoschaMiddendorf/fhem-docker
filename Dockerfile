@@ -151,11 +151,10 @@ RUN mkdir /opt/yowsup-config
 RUN wget -N https://github.com/tgalal/yowsup/archive/master.zip
 RUN unzip -o master.zip && rm master.zip
 
-
-WORKDIR /opt
 #mod # install fhem (debian paket)
+WORKDIR /opt
 RUN wget https://fhem.de/fhem-${FHEM_VERSION}.deb && dpkg -i fhem-${FHEM_VERSION}.deb
-RUN rm fhem.deb
+RUN rm fhem-${FHEM_VERSION}.deb
 RUN echo 'fhem    ALL = NOPASSWD:ALL' >>/etc/sudoers
 RUN echo 'attr global pidfilename /var/run/fhem/fhem.pid' >> /opt/fhem/fhem.cfg
 
