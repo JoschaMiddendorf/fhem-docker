@@ -8,7 +8,6 @@
 # * added service sshd  to supervisord
 
 FROM debian:jessie
-#mod MAINTAINER Armin Pipp <armin@pipp.at>
 MAINTAINER Joscha Middendorf <joscha.middendorf@me.com>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -114,10 +113,27 @@ libav-tools \
 && apt-get clean
 
 # whatsapp Python yowsup
-RUN apt-get -y --force-yes install python-soappy python-dateutil python-pip python-dev build-essential libgmp10 \
+RUN apt-get -y --force-yes install \
+python-soappy \
+python-dateutil \
+python-pip \
+python-dev \
+build-essential \
+libgmp10 \
 && apt-get clean
+
 # whatsapp images
-RUN apt-get -y --force-yes install libtiff5-dev libjpeg-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev tcl8.5-dev tk8.5-dev python-tk && apt-get clean
+RUN apt-get -y --force-yes install \
+libtiff5-dev \
+libjpeg-dev \
+zlib1g-dev \
+libfreetype6-dev \
+liblcms2-dev \
+libwebp-dev \
+tcl8.5-dev \
+tk8.5-dev \
+python-tk \
+&& apt-get clean
 
 
 # Pyhton stuff
@@ -142,7 +158,6 @@ RUN wget https://fhem.de/fhem-${FHEM_VERSION}.deb && dpkg -i fhem-${FHEM_VERSION
 RUN rm fhem.deb
 RUN echo 'fhem    ALL = NOPASSWD:ALL' >>/etc/sudoers
 RUN echo 'attr global pidfilename /var/run/fhem/fhem.pid' >> /opt/fhem/fhem.cfg
-RUN echo 'define Wetter_Villach Weather 540859 1800 de'   >> /opt/fhem/fhem.cfg
 
 RUN apt-get -y --force-yes install supervisor 
 RUN mkdir -p /var/log/supervisor
@@ -190,6 +205,6 @@ ENTRYPOINT ["./run.sh"]
 VOLUME /opt/fhem   /opt/yowsup-config
 
 #TESTING
-RUN apt-get -y --force-yes install php5-cli php5-mysql && apt-get clean
+# RUN apt-get -y --force-yes install php5-cli php5-mysql && apt-get clean
 
 # End Dockerfile
