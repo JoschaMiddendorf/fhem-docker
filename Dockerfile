@@ -1,4 +1,5 @@
-# Modifiziet von pipp37/fhem_jessie modifikationen markiert mit #mod
+# Modifiziet von Joscha Middendorf auf basis von pipp37/fhem_jessie 
+# Copyright (c) 2018 Joscha Middendorf
 # Copyright (c) 2016 Armin Pipp
 # Version 2 1/2017
 # Changes:
