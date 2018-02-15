@@ -1,7 +1,6 @@
 # Modifiziet von Joscha Middendorf auf basis von pipp37/fhem_jessie 
 # Copyright (c) 2018 Joscha Middendorf
 # Copyright (c) 2016 Armin Pipp
-# Version 2 1/2017
 # Changes:
 # * added volumedata2.sh - extracts  data from a tgz when using empty host volumes
 # * added superivsord config for fhem running foreground 
@@ -155,7 +154,7 @@ RUN unzip -o master.zip && rm master.zip
 #mod # install fhem (debian paket)
 WORKDIR /opt
 RUN wget https://fhem.de/fhem-${FHEM_VERSION}.deb && dpkg -i fhem-${FHEM_VERSION}.deb
-RUN rm fhem-${FHEM_VERSION}.deb
+#RUN rm fhem-${FHEM_VERSION}.deb
 RUN echo 'fhem    ALL = NOPASSWD:ALL' >>/etc/sudoers
 RUN echo 'attr global pidfilename /var/run/fhem/fhem.pid' >> /opt/fhem/fhem.cfg
 
