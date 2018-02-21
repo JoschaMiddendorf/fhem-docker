@@ -10,8 +10,10 @@ ENV TERM xterm
 
 
 # Install dependencies
-RUN apt-get update && apt-get upgrade -y --force-yes && apt-get install -y --force-yes --no-install-recommends apt-utils
-RUN apt-get -y --force-yes install \
+RUN apt-get update \
+&& apt-get upgrade -y --force-yes \
+&& apt-get install -y --force-yes --no-install-recommends apt-utils \
+&& apt-get -y --force-yes install \
 apt-transport-https \
 at \
 build-essential \
@@ -168,6 +170,3 @@ CMD bash /opt/fhem/start.sh
 
 #ENTRYPOINT ["./run.sh"]
 #CMD ["arg1"]
-
-
-
