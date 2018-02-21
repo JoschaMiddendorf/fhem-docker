@@ -2,6 +2,7 @@
 
 set -e
 #cd /opt/fhem
+cd /
 port=7072
 
 #echo "Extract FHEM config data to /opt/fhem/ if empty:"
@@ -13,5 +14,4 @@ port=7072
 
 echo "Starting FHEM:"
 echo ""
-cd /opt/fhem
-perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
+perl /opt/fhem/fhem.pl /opt/fhem/fhem.cfg | tee /opt/fhem/log/fhem.log
