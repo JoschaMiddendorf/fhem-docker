@@ -129,7 +129,7 @@ RUN userdel fhem
 # add Configuration and start scripts
 ADD start.sh /root/
 ADD volumedata2.sh /root/_cfg/
-RUN chmod +x /root/start.sh && chmod +x /_cfg/*.sh
+RUN chmod +x /root/start.sh && chmod +x /root/_cfg/*.sh
 
 # open ports 
 EXPOSE 8083 8089 7072
