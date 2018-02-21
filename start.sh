@@ -4,7 +4,7 @@ set -e
 #cd /opt/fhem
 port=7072
 
-echo "Extract base FHEM data from /opt/fhem/ if empty:"
+echo "Extract FHEM config data to /opt/fhem/ if empty:"
 echo "-->"
 /root/_cfg/volumedata2.sh write /opt/fhem 
 echo ""
