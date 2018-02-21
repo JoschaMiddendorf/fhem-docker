@@ -4,5 +4,16 @@ set -e
 cd /opt/fhem
 port=7072
 
-echo "Starte FHEM"
-perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
+echo "Extract base FHEM data from /opt/fhem/ if empty:"
+echo "-->"
+/root/_cfg/volumedata2.sh write /opt/fhem 
+echo ""
+
+echo "Starting FHEM:"
+echo "-->"
+perl fhem.pl fhem.cfg
+echo ""
+
+echo "FHEM Log:"
+echo "-->"
+tee /opt/fhem/log/fhem.log
