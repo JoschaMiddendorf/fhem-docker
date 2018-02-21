@@ -11,8 +11,8 @@ ENV TERM xterm
 
 # Install dependencies
 RUN apt-get update \
-&& apt-get upgrade -y --force-yes \
 && apt-get -y --force-yes install apt-utils \
+&& apt-get upgrade -y --force-yes \
 && apt-get -y --force-yes install \
 apt-transport-https \
 at \
