@@ -123,7 +123,8 @@ RUN cd /usr/local/bin \
 RUN wget https://fhem.de/fhem-${FHEM_VERSION}.deb && dpkg -i fhem-${FHEM_VERSION}.deb
 RUN rm fhem-${FHEM_VERSION}.deb
 RUN userdel fhem
-#RUN echo 'fhem    ALL = NOPASSWD:ALL' >>/etc/sudoers
+# run FHEM in foreground
+RUN echo 'attr global nofork 1' >> /opt/fhem/fhem.cfg
 
 
 # add Configuration and start scripts
