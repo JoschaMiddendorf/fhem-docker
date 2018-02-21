@@ -142,7 +142,7 @@ VOLUME /opt/fhem
 RUN /root/_cfg/volumedata2.sh write /opt/fhem
 
 # Start FHEM
-CMD bash /opt/fhem/start.sh
+CMD bash /root/start.sh
 
 # End Dockerfile
 
