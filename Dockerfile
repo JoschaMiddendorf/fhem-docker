@@ -141,6 +141,6 @@ EXPOSE 8083 8089 7072
 VOLUME /opt/fhem
 
 # Start FHEM
-CMD bash /root/start.sh
+ENTRYPOINT bash /root/start.sh
 
 # End Dockerfile
