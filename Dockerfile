@@ -35,14 +35,12 @@ nano \
 nodejs \
 perl \
 snmp \
-snmp \
 snmpd \
 sqlite3 \
 sudo \
 telnet-ssl \
 usbutils \
 usbutils \
-vim \
 vim \
 wget \
 && apt-get clean
@@ -122,22 +120,16 @@ RUN cd /usr/local/bin \
  && chmod +x speedtest-cli
 
 # Install FHEM (FHEM_VERSION)
-#WORKDIR /opt
 RUN wget https://fhem.de/fhem-${FHEM_VERSION}.deb && dpkg -i fhem-${FHEM_VERSION}.deb
 RUN rm fhem-${FHEM_VERSION}.deb
 RUN userdel fhem
 #RUN echo 'fhem    ALL = NOPASSWD:ALL' >>/etc/sudoers
 
 
-
-
-# define directory
-# WORKDIR "/opt/fhem"
-
 # add Configuration and start scripts
 ADD start.sh /root/
 ADD volumedata2.sh /root/
-#RUN chmod +x /root/run.sh && chmod +x /root/runfhem.sh && chmod +x /_cfg/*.sh && chmod +x /root/run.sh
+RUN chmod +x /root/start.sh && chmod +x /root/volumedata2.sh
 
 # open ports 
 EXPOSE 8083 8089 7072
