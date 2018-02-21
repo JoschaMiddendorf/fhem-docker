@@ -12,7 +12,7 @@ ENV TERM xterm
 # Install dependencies
 RUN apt-get update \
 && apt-get upgrade -y --force-yes \
-&& apt-get install -y --force-yes --no-install-recommends apt-utils \
+&& apt-get -y --force-yes install apt-utils \
 && apt-get -y --force-yes install \
 apt-transport-https \
 at \
@@ -50,6 +50,7 @@ vim \
 wget \
 && apt-get clean
 
+#&& apt-get install -y --force-yes --no-install-recommends apt-utils \
 #bluetooth \
 #bluez-hcidump \
 #bluez \
