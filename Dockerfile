@@ -131,33 +131,16 @@ ADD start.sh /root/
 ADD volumedata2.sh /root/_cfg/
 RUN chmod +x /root/start.sh && chmod +x /root/_cfg/*.sh
 
+# compress base FHEM data from /opt/fhem/ to /root/_cfg/
+RUN /root/_cfg/volumedata2.sh create /opt/fhem
+
 # open ports 
 EXPOSE 8083 8089 7072
 
-# compress base FHEM data from /opt/fhem/ to /root/_cfg/
-RUN /root/_cfg/volumedata2.sh create /opt/fhem
 # add volumes
 VOLUME /opt/fhem
-# if empty, extract base FHEM data from /root/_cfg/ to /opt/fhem/
-#RUN /root/_cfg/volumedata2.sh write /opt/fhem
 
 # Start FHEM
 CMD bash /root/start.sh
 
 # End Dockerfile
-
-
-
-
-#ADD run.sh /root/
-#ADD runfhem.sh /root/
-#ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-
-#RUN chmod +x /root/run.sh && chmod +x /root/runfhem.sh && chmod +x /_cfg/*.sh && chmod +x /root/run.sh
-#RUN /_cfg/volumedata2.sh create /opt/fhem \
-# && /_cfg/volumedata2.sh create /opt/yowsup-config \
-# && touch /opt/yowsup-config/empty.txt
-
-#ENTRYPOINT ["./run.sh"]
-#CMD ["arg1"]
