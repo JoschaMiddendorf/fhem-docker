@@ -34,7 +34,7 @@ case $1 in
 		if  [ -d  $2 ]; then  
 			TGZ=$TGZDIR/`echo $2 | sed -r 's/\//_/g'`.tgz
 			echo create $TGZ from $2
-			tar -czf $TGZ $2
+			tar -czf $TGZ -C $2
 		fi
 		;;
 	write)
