@@ -10,8 +10,8 @@ ENV TERM xterm
 
 
 # Install dependencies
-RUN apt-get update \
-&& apt-get -y --force-yes install apt-utils \
+RUN apt-get -y --force-yes install apt-utils \
+&& apt-get update \
 && apt-get upgrade -y --force-yes \
 && apt-get -y --force-yes install \
 apt-transport-https \
@@ -41,7 +41,6 @@ snmp \
 snmpd \
 sqlite3 \
 sudo \
-telnet \
 telnet-ssl \
 usbutils \
 usbutils \
