@@ -13,4 +13,5 @@ echo ""
 
 echo "Starting FHEM:"
 echo ""
-perl /opt/fhem/fhem.pl /opt/fhem/fhem.cfg | tee /opt/fhem/log/fhem.log
+cd /opt/fhem
+perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
