@@ -128,17 +128,18 @@ RUN userdel fhem
 
 # add Configuration and start scripts
 ADD start.sh /root/
-ADD volumedata2.sh /root/
-RUN chmod +x /root/start.sh && chmod +x /root/volumedata2.sh
+ADD volumedata2.sh /root/_cfg/
+RUN chmod +x /root/start.sh && chmod +x /_cfg/*.sh
 
 # open ports 
 EXPOSE 8083 8089 7072
 
+# compress base FHEM data from /opt/fhem/ to /root/_cfg/
+RUN /root/_cfg/volumedata2.sh create /opt/fhem
 # add volumes
 VOLUME /opt/fhem
-
-# if empty, extract FHEM data to /opt/fhem
-RUN /root/volumedata2.sh create /opt/fhem
+# if empty, extract base FHEM data from /root/_cfg/ to /opt/fhem/
+RUN /root/_cfg/volumedata2.sh write /opt/fhem
 
 # Start FHEM
 CMD bash /opt/fhem/start.sh
