@@ -139,7 +139,7 @@ RUN /root/_cfg/volumedata2.sh create /opt/fhem
 # add volumes
 VOLUME /opt/fhem
 # if empty, extract base FHEM data from /root/_cfg/ to /opt/fhem/
-RUN /root/_cfg/volumedata2.sh write /opt/fhem
+#RUN /root/_cfg/volumedata2.sh write /opt/fhem
 
 # Start FHEM
 CMD bash /root/start.sh
