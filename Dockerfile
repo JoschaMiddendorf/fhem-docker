@@ -129,7 +129,9 @@ RUN userdel fhem
 RUN echo 'attr global nofork 1' >> /opt/fhem/fhem.cfg
 
 
-# add Configuration and start scripts
+# add basic Configuration and start scripts
+ADD fhem.cfg /opt/fhem/
+ADD controls.txt /opt/fhem/FHEM/
 ADD start.sh /root/
 ADD volumedata2.sh /root/_cfg/
 RUN chmod +x /root/start.sh && chmod +x /root/_cfg/*.sh
