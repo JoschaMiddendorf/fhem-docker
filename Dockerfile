@@ -150,9 +150,9 @@ VOLUME /opt/fhem
 #CMD bash /root/start.sh
 
 # Default arguments to execute the entrypoint
-CMD ["extract /opt/fhem"]
+CMD /root/StartAndInitialize.sh extract /opt/fhem
 
 # Start and initialize FHEM with entrypoint script
-ENTRYPOINT /root/StartAndInitialize.sh
+#ENTRYPOINT /root/StartAndInitialize.sh
 
 # End Dockerfile
