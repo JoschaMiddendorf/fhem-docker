@@ -16,7 +16,7 @@
 ##################################################################################################
 
 ## turn on Debugging
-set -x
+#set -x
 
 ### Functions to start FHEM ###
 
@@ -83,7 +83,7 @@ case $1 in
 			if [ -e $PACKAGE ]; then
 				tar -xzkf $PACKAGE -C / 
 				touch $PACKAGE.extracted
-				echo "Extracted package $PACKAGE to $2"
+				echo "Extracted package $PACKAGE to $2 to initialize the configuration."
 				StartFHEMandUpdate
 			fi
 		fi	
@@ -95,4 +95,4 @@ case $1 in
 esac
 
 ## turn off Debugging
-set +x
+#set +x
