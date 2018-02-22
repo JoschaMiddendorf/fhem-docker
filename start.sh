@@ -3,6 +3,8 @@
 set -e
 port=7072
 
+echo ""
+echo "-------------------------------------------------------------------------------------------------------------------------"
 echo "Extract FHEM config data to /opt/fhem/ if empty:"
 echo ""
 /root/_cfg/volumedata2.sh write /opt/fhem 
