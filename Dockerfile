@@ -43,7 +43,6 @@ usbutils \
 usbutils \
 vim \
 wget
-#&& apt-get clean
 
 #&& apt-get install -y --force-yes --no-install-recommends apt-utils \
 #bluetooth \
@@ -108,7 +107,6 @@ libtext-diff-perl \
 libtimedate-perl \
 libwww-perl \
 libxml-simple-perl
-#&& apt-get clean
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -140,13 +138,12 @@ RUN chmod +x /root/start.sh && chmod +x /root/_cfg/*.sh
 RUN /root/_cfg/volumedata2.sh create /opt/fhem
 
 # open ports 
-EXPOSE 8083 8089 7072
+EXPOSE 7072 8083 8084 8085 8086 8087 8088 8089
 
 # add volumes
 VOLUME /opt/fhem
 
 # Start FHEM
-#ENTRYPOINT ["/root/start.sh"]
 CMD bash /root/start.sh
 
 # End Dockerfile
