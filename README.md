@@ -11,11 +11,12 @@ Furthermore there are some goodies, predefinitions and helpers in the initial co
 * FHEM Forum: https://forum.fhem.de
 
 ### Features
-* volume /opt/fhem
-* Exposed ports: 7072 Fhem-Tellnet and 8083-8089 FHEM Web, Tablet UI and Webhooks
-* Preinstalled haus-automatisierung.com Theme
+* mapable and self initialising volume /opt/fhem
+* Exposed ports: 7072 for FHEM-Tellnet and 8083-8089 for FHEM Web, Tablet UI and Webhooks.
+* Preinstalled haus-automatisierung.com theme
 * Preconfigured nice looking FHEM Web
 * Live Log Output via Docker
+* constantly improved and maintained
 
 ### Run:
     docker run -d --name FHEM --cap-add SYS_ADMIN -p 7072:7072 -p 8083:8083 -p 8084:8084 -p 8085:8085 -p 8086:8086 -p 8087:8087 -p 8088:8088 -p 8089:8089 diggewuff/fhem-docker
