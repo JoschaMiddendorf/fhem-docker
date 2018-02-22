@@ -5,10 +5,10 @@ You can make your entire configuration persitent across updates and restarts by 
 If the maped directory is empty prior to the first atempt to run the container, initial data will be extracted from the install.
 Furthermore there are some goodies, predefinitions and helpers in the initial config whitch will make it easy for you to start over.
 
-Video Tutorials: https://www.youtube.com/channel/UCRDCsZvUg75Bibp9qYbHivw
-Manuals: https://haus-automatisierung.com/
-FHEM Website: http://www.fhem.de
-FHEM Forum: https://forum.fhem.de
+* Video Tutorials: https://www.youtube.com/channel/UCRDCsZvUg75Bibp9qYbHivw
+* Manuals: https://haus-automatisierung.com/
+* FHEM Website: http://www.fhem.de
+* FHEM Forum: https://forum.fhem.de
 
 ### Features
 * volume /opt/fhem
