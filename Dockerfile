@@ -133,9 +133,12 @@ ADD controls.txt /opt/fhem/FHEM/
 ADD start.sh /root/
 ADD volumedata2.sh /root/_cfg/
 RUN chmod +x /root/start.sh && chmod +x /root/_cfg/*.sh
+#ADD StartAndInitialize.sh /root/
+#RUN chmod +x /root/StartAndInitialize.sh
 
 # compress base FHEM data from /opt/fhem/ to /root/_cfg/
 RUN /root/_cfg/volumedata2.sh create /opt/fhem
+#RUN /root/_cfg/StartAndInitialize.sh initialize /opt/fhem
 
 # open ports 
 EXPOSE 7072 8083 8084 8085 8086 8087 8088 8089
@@ -145,5 +148,11 @@ VOLUME /opt/fhem
 
 # Start FHEM
 CMD bash /root/start.sh
+
+# Default port to execute the entrypoint
+#CMD extract /opt/fhem 
+
+# Start and initialize FHEM with entrypoint script
+#ENTRYPOINT /root/StartAndInitialize.sh
 
 # End Dockerfile
