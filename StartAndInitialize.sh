@@ -60,7 +60,7 @@ case $1 in
 		## check if $2 is a extsting directory
 		if  [ -d  $2 ]; then  
 			PACKAGE=$PACKAGEDIR/`echo $2 | tr '[/]' '-'`.tgz
-			tar -fcz $PACKAGE $2018
+			tar -fcz $PACKAGE $2
 			echo "Created package $PACKAGE from $2."
 		fi
 		;;
