@@ -27,6 +27,7 @@ function StartFHEM {
 	cd /opt/fhem
 	perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
 }
+
 function StartFHEMandUpdate {
 	echo
 	echo '!  Almost ready... You are about to start FHEM for the first time.'
