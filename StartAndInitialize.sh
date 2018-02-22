@@ -18,31 +18,31 @@
 ### Functions to start FHEM ###
 
 function StartFHEM {
-	echo ''
+	echo
 	echo 'Starting FHEM:'
-	echo ''
+	echo
 	cd /opt/fhem
 	perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
 }
 function StartFHEMandUpdate {
-	echo ''
+	echo
 	echo '!  Almost ready... You are about to start FHEM for the first time.'
 	echo '!  Pleast connect to FHEM via http://YourLocalIP:8083 '
 	echo '!  and execute the command "update" (without the "") first before you do anything else."'
 	echo '!  As soon as the update is complete, execute "shutdown restart" and have fun!'
-	echo ''
+	echo
 	echo Starting FHEM:
-	echo ''
+	echo
 	cd /opt/fhem
 	perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
 }
 
 ### Start of Script ###
 
-echo ''
+echo 
 echo '-------------------------------------------------------------------------------------------------------------------------'
 echo 'Extract FHEM config data to /opt/fhem/ if empty:'
-echo ''
+echo 
 
 if [ -z $2 ]; then
     echo 'Error: Not enough arguments provided, please provide Arg1=initialize/extract and Arg2=/abs/path/to/directory/'
