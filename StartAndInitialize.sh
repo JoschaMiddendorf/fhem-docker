@@ -15,6 +15,9 @@
 ##
 ##################################################################################################
 
+## turn on Debugging
+set -x
+
 ### Functions to start FHEM ###
 
 function StartFHEM {
@@ -90,3 +93,6 @@ case $1 in
 		exit 1
 	;;
 esac
+
+## turn off Debugging
+set +x
