@@ -44,8 +44,6 @@ function StartFHEMandUpdate {
 
 echo 
 echo '-------------------------------------------------------------------------------------------------------------------------'
-echo 'Extract FHEM config data to /opt/fhem/ if empty:'
-echo 
 
 if [ -z $2 ]; then
     echo 'Error: Not enough arguments provided, please provide Arg1=initialize/extract and Arg2=/abs/path/to/directory/'
@@ -57,6 +55,8 @@ test -e $PACKAGEDIR || mkdir -p $PACKAGEDIR
 
 case $1 in
 	initialize)
+		echo 'Creating package of /opt/fhem/:'
+		echo 
 		## check if $2 is a extsting directory
 		if  [ -d  $2 ]; then  
 			PACKAGE=$PACKAGEDIR/`echo $2 | tr '[/]' '-'`.tgz
@@ -65,6 +65,8 @@ case $1 in
 		fi
 		;;
 	extract)
+		echo 'Extracting config data to /opt/fhem/ if empty:'
+		echo 
 		## check if $PACKAGE was extracted before
 		PACKAGE=$PACKAGEDIR/`echo $2 | tr '[/]' '-'`.tgz
 		if [ -e $PACKAGE.extracted ]; then
@@ -83,7 +85,7 @@ case $1 in
 			if [ -e $PACKAGE ]; then
 				tar -xzkf $PACKAGE -C / 
 				touch $PACKAGE.extracted
-				echo "Extracted package $PACKAGE to $2 to initialize the configuration."
+				echo "Extracted package $PACKAGE to $2 to initialize the configuration directory."
 				StartFHEMandUpdate
 			fi
 		fi	
