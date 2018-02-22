@@ -42,8 +42,8 @@ telnet-ssl \
 usbutils \
 usbutils \
 vim \
-wget \
-&& apt-get clean
+wget
+#&& apt-get clean
 
 #&& apt-get install -y --force-yes --no-install-recommends apt-utils \
 #bluetooth \
@@ -107,9 +107,11 @@ libtext-csv-perl \
 libtext-diff-perl \
 libtimedate-perl \
 libwww-perl \
-libxml-simple-perl \
-&& apt-get clean
+libxml-simple-perl
+#&& apt-get clean
 
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Configure Timezone
 RUN echo Europe/Berlin > /etc/timezone && dpkg-reconfigure tzdata
