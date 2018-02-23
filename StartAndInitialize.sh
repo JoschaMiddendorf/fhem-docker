@@ -18,6 +18,7 @@
 ## turn on Debugging
 #set -x
 
+
 ### Functions to start FHEM ###
 
 function StartFHEM {
@@ -39,7 +40,19 @@ function StartFHEMandUpdate {
 	cd /opt/fhem
 	perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
 }
-trap "echo Booh!" SIGTERM
+
+
+### Docker stop sinal handler ###
+
+function StopFHEM {
+	echo
+	echo 'SIGTERM signal received, sending "shutdown" command to FHEM!'
+	echo
+	opt/fhem/fhem.pl 7072 shutdown
+}
+
+trap "StopFHEM" SIGTERM
+
 
 ### Start of Script ###
 
