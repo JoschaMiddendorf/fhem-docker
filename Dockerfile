@@ -139,6 +139,7 @@ EXPOSE 7072 8083 8084 8085 8086 8087 8088 8089
 VOLUME /opt/fhem
 
 # Default arguments to execute the entrypoint
-CMD /root/StartAndInitialize.sh extract /opt/fhem
+#CMD /root/StartAndInitialize.sh extract /opt/fhem
+ENTRYPOINT ["/root/StartAndInitialize.sh extract /opt/fhem"]
 
 # End Dockerfile
