@@ -58,6 +58,7 @@ trap "StopFHEM" TERM INT
 
 echo 
 echo '-------------------------------------------------------------------------------------------------------------------------'
+echo " PID = $$"
  
 if [ -z $2 ]; then
     echo 'Error: Not enough arguments provided, please provide Arg1=initialize/extract and Arg2=/abs/path/to/directory/'
