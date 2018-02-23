@@ -16,7 +16,7 @@
 ##################################################################################################
 
 ## turn on Debugging
-#set -x
+set -x
 
 
 ### Functions to start FHEM ###
@@ -25,8 +25,8 @@ function StartFHEM {
 	echo
 	echo 'Starting FHEM:'
 	echo
-	cd /opt/fhem
-	perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
+	#cd /opt/fhem
+	perl /opt/fhem/fhem.pl /opt/fhem/fhem.cfg | tee /opt/fhem/log/fhem.log
 }
 function StartFHEMandUpdate {
 	echo
@@ -37,8 +37,8 @@ function StartFHEMandUpdate {
 	echo
 	echo Starting FHEM:
 	echo
-	cd /opt/fhem
-	perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
+	#cd /opt/fhem
+	perl /opt/fhem/fhem.pl /opt/fhem/fhem.cfg | tee /opt/fhem/log/fhem.log
 }
 
 
@@ -111,4 +111,4 @@ case $1 in
 esac
 
 ## turn off Debugging
-#set +x
+set +x
