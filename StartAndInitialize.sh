@@ -25,12 +25,12 @@ function StartFHEM {
 	echo
 	echo 'Starting FHEM:'
 	echo
-	#cd /opt/fhem
-	#perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
-	while :			# This is the same as "while true".
-	do
-        	sleep 1	# This script is not really doing anything.
-	done
+	cd /opt/fhem
+	perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
+	#while :			# This is the same as "while true".
+	#do
+        #	sleep 1	# This script is not really doing anything.
+	#done
 }
 function StartFHEMandUpdate {
 	echo
@@ -52,7 +52,7 @@ function StopFHEM {
 	echo
 	echo 'SIGTERM signal received, sending "shutdown" command to FHEM!'
 	echo
-	#opt/fhem/fhem.pl 7072 shutdown
+	opt/fhem/fhem.pl 7072 shutdown
 }
 
 trap "StopFHEM" SIGTERM SIGINT
