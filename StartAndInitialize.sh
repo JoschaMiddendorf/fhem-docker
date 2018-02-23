@@ -29,7 +29,7 @@ function StartFHEM {
 	#perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
 	while :			# This is the same as "while true".
 	do
-        	sleep 60	# This script is not really doing anything.
+        	sleep 1	# This script is not really doing anything.
 	done
 }
 function StartFHEMandUpdate {
