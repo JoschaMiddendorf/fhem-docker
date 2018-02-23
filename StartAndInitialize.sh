@@ -51,7 +51,7 @@ function StopFHEM {
 	opt/fhem/fhem.pl 7072 shutdown
 }
 
-trap "StopFHEM" TERM INT
+trap "StopFHEM" SIGTERM SIGINT
 
 
 ### Start of Script ###
