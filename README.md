@@ -39,6 +39,6 @@ and mapp them to the container by adding argument like this to the run command: 
     docker ps
 ##### Attach shell to container with:
     docker exec -it ContainerID /bin/bash
-    
+
 #### GUI FHEM:
     http://ipaddress:8083
