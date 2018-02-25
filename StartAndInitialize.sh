@@ -22,30 +22,30 @@
 ### Functions to start FHEM ###
 
 function MonitorFHEM {
-	logfile=`date +'./fhem-%Y-%m.log'`
+	logfile=`date +'/opt/fhem/log/fhem-%Y-%m.log'`
 	processname="bash fhemdummy.sh"
 	oldlines=`wc -l < $logfile`
 	
 	while true; do 
-		if [ -z $(pgrep -f "$processname") ]; then
-			countdown=10
-			echo "FHEM process terminated, waiting for $countdown seconds before stoping container:"
-			while [ -z $(pgrep -f "$processname") ] && [ $countdown -gt 0 ]; do
-				sleep 1
-				echo "waiting - $countdown"
-				let countdown--
-			done
-			sleep 1
-			if [ -z $(pgrep -f "$processname") ]; then
-				echo '0 - Stopping Container!'
-				exit 1
-			else
-				echo 'FHEM process reappeared, container still running:'
-			fi
-		fi
-		lines=`wc -l < $logfile`
-		tail -n `expr $lines - $oldlines` $logfile
-		oldlines=$lines
+		#if [ -z $(pgrep -f "$processname") ]; then
+		#	countdown=10
+		#	echo "FHEM process terminated, waiting for $countdown seconds before stoping container:"
+		#	while [ -z $(pgrep -f "$processname") ] && [ $countdown -gt 0 ]; do
+		#		sleep 1
+		#		echo "waiting - $countdown"
+		#		let countdown--
+		#	done
+		#	sleep 1
+		#	if [ -z $(pgrep -f "$processname") ]; then
+		#		echo '0 - Stopping Container!'
+		#		exit 1
+		#	else
+		#		echo 'FHEM process reappeared, container still running:'
+		#	fi
+		#fi
+		#lines=`wc -l < $logfile`
+		#tail -n `expr $lines - $oldlines` $logfile
+		#oldlines=$lines
 		sleep 0.1
 	done
 }
