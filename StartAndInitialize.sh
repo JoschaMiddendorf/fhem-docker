@@ -40,24 +40,26 @@ function StartFHEM {
 	while [ ! -e $PIDFILE ]; do
 		sleep 0.1
 	done
-	sleep 3					## Wait a bit to let FHEM start up
-	PrintNewLines
 	
 	## Evetually update FHEM
 	if [ $UPDATE -eq 1 ]; then
+		( tail -f -n0 $LOGFILE & ) | grep -q 'Server started'			## Wait for FHEM tp start up
+		PrintNewLines
 		echo
 		echo 'Performing initial update of FHEM, this may take a minute...'
 		echo
 		PID=`cat $PIDFILE`
 		perl /opt/fhem/fhem.pl 7072 update
+		( tail -f -n0 $LOGFILE & ) | grep -q 'update finished'			## Wait for update to finish
 		PrintNewLines
 		echo
 		echo 'Restarting FHEM after initial update...'
 		echo
 		perl /opt/fhem/fhem.pl 7072 "shutdown restart"
-		while [ ! -e $PIDFILE ] || [ $PID -eq `cat $PIDFILE` ]; do
-			sleep 0.1
-		done
+		( tail -f -n0 $LOGFILE & ) | grep -q 'Server started'			## Wait for FHEM tp start up
+		#while [ ! -e $PIDFILE ] || [ $PID -eq `cat $PIDFILE` ]; do
+		#	sleep 0.1
+		#done
 		PrintNewLines
 		echo
 		echo 'FHEM updated and restarted!'
@@ -71,7 +73,7 @@ function StartFHEM {
 			COUNTDOWN=10
 			echo
 			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
-			while [ ! -e $PIDFILE ] && [ $COUNTDOWN -gt 0 ]; do		## FHEM exits unexpectedly
+			while [ ! -e $PIDFILE ] && [ $COUNTDOWN -gt 0 ]; do		## FHEM exited unexpectedly
 				sleep 1
 				echo "waiting - $COUNTDOWN"
 				let COUNTDOWN--
@@ -84,7 +86,7 @@ function StartFHEM {
 				echo 'FHEM process reappeared, kept container alive!'
 			fi
 			echo
-			echo 'FHEM is up and running:'
+			echo 'FHEM is up and running again:'
 			echo
 		fi
 		PrintNewLines								## Printing log lines in intervalls
@@ -102,6 +104,7 @@ function StopFHEM {
 	cd /opt/fhem
 	perl fhem.pl 7072 shutdown
 	echo 'Waiting for FHEM process to terminate before stopping container:'
+	( tail -f -n0 $LOGFILE & ) | grep -q 'Server shutdown'			## Wait for FHEM stop
 	while [ -e $PIDFILE ]; do
 		let COUNTUP++
 		echo "waiting - $COUNTUP"
