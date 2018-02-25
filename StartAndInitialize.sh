@@ -22,7 +22,7 @@ function StartFHEM {
 #set -x
 	LOGFILE=`date +'/opt/fhem/log/fhem-%Y-%m.log'`
 	PIDFILE=/opt/fhem/log/fhem.pid 
-	SLEEPINTERVAL=0.5
+	SLEEPINTERVAL=0.2
 	
 	## Function to print FHEM log in incremental steps to the docker log.
 	OLDLINES=`wc -l < $LOGFILE`
@@ -39,14 +39,11 @@ function StartFHEM {
 	cd /opt/fhem
 	trap "StopFHEM" SIGTERM
 	perl fhem.pl fhem.cfg
-	#while [ ! -e $PIDFILE ]; do
-	#	sleep $SLEEPINTERVAL
-	#done
-	( tail -f -n0 $LOGFILE & ) | grep -q 'Server started'					## Wait for FHEM tp start up 
+	( tail -f -n0 $LOGFILE & ) | grep -q 'Server started'					## Wait for FHEM tp start up
+	PrintNewLines
 	
 	## Evetually update FHEM
 	if [ $UPDATE -eq 1 ]; then
-		PrintNewLines
 		echo
 		echo 'Performing initial update of FHEM, this may take a minute...'
 		echo
@@ -58,10 +55,6 @@ function StartFHEM {
 		echo
 		perl /opt/fhem/fhem.pl 7072 "shutdown restart"
 		( tail -f -n0 $LOGFILE & ) | grep -q 'Server started'				## Wait for FHEM tp start up
-		#PID=`cat $PIDFILE`
-		#while [ ! -d /proc/`cat $PIDFILE` ] || [ $PID -eq `cat $PIDFILE` ]; do
-		#	sleep $SLEEPINTERVAL
-		#done
 		PrintNewLines
 		echo
 		echo 'FHEM updated and restarted!'
@@ -71,7 +64,9 @@ function StartFHEM {
 	
 	## Monitor FHEM during runtime
 	while true; do 
-		if [ ! -e $PIDFILE ]; then							## FHEM is running
+		set -x
+		if [ ! -d /proc/`cat $PIDFILE` ]; then						## FHEM is running
+		set +x
 			COUNTDOWN=10
 			echo
 			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
@@ -84,11 +79,11 @@ function StartFHEM {
 			if [ ! -d /proc/`cat $PIDFILE` ]; then					## FHEM didn't reappeared
 				echo
 				echo '0 - Stopping Container. Bye!'
+				sleep 1
 				exit 1
 			else									## FHEM reappeared
 				echo
 				echo 'FHEM process reappeared, kept container alive!'
-				sleep $SLEEPINTERVAL
 			fi
 			echo
 			echo 'FHEM is up and running again:'
@@ -104,7 +99,7 @@ function StartFHEM {
 
 ### Docker stop sinal handler ###
 
-function StopFHEM {								##############
+function StopFHEM {
 	echo
 	echo 'SIGTERM signal received, sending "shutdown" command to FHEM!'
 	echo
@@ -112,11 +107,6 @@ function StopFHEM {								##############
 	perl fhem.pl 7072 shutdown
 	echo 'Waiting for FHEM process to terminate before stopping container:'
 	( tail -f -n0 $LOGFILE & ) | grep -q 'Server shutdown'					## Wait for FHEM stop
-	#while [ -e $PIDFILE ]; do
-	#	let COUNTUP++
-	#	echo "waiting - $COUNTUP"
-	#	sleep 1
-	#done
 	PrintNewLines
 	sleep 1
 	echo 'FHEM process terminated, stopping container. Bye!'
