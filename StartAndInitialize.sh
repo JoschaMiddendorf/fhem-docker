@@ -22,7 +22,6 @@
 ### Functions to start FHEM ###
 
 function StartFHEM {
-	set -x
 	LOGFILE=`date +'/opt/fhem/log/fhem-%Y-%m.log'`
 	PIDFILE=/opt/fhem/log/fhem.pid 
 	OLDLINES=`wc -l < $LOGFILE`
@@ -55,9 +54,8 @@ function StartFHEM {
 		LINES=`wc -l < $LOGFILE`
 		tail -n `expr $LINES - $OLDLINES` $LOGFILE
 		OLDLINES=$LINES
-		sleep 1
+		sleep 0.1
 	done
-set +x
 }
 
 
