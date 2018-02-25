@@ -22,6 +22,7 @@ function StartFHEM {
 	LOGFILE=`date +'/opt/fhem/log/fhem-%Y-%m.log'`
 	PIDFILE=/opt/fhem/log/fhem.pid 
 	
+	## Function to print FHEM log in incremental steps to the docker log.
 	OLDLINES=`wc -l < $LOGFILE`
 	function PrintNewLines {
 		LINES=`wc -l < $LOGFILE`
@@ -39,7 +40,7 @@ function StartFHEM {
 	while [ ! -e $PIDFILE ]; do
 		sleep 0.1
 	done
-	
+	sleep 3					## Wait a bit to let FHEM start up
 	PrintNewLines
 	
 	## Evetually update FHEM
