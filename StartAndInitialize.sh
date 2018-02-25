@@ -19,6 +19,7 @@
 ### Functions to start FHEM ###
 
 function StartFHEM {
+set -x
 	LOGFILE=`date +'/opt/fhem/log/fhem-%Y-%m.log'`
 	PIDFILE=/opt/fhem/log/fhem.pid 
 	SLEEPINTERVAL=0.5
@@ -71,7 +72,6 @@ function StartFHEM {
 	## Monitor FHEM during runtime
 	while true; do 
 		if [ ! -e $PIDFILE ]; then						## FHEM is running
-			set -x
 			COUNTDOWN=10
 			echo
 			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
@@ -93,11 +93,12 @@ function StartFHEM {
 			echo
 			echo 'FHEM is up and running again:'
 			echo
-			set +x
+			
 		fi
 		PrintNewLines								## Printing log lines in intervalls
 		sleep $SLEEPINTERVAL
 	done
+set +x
 }
 
 
