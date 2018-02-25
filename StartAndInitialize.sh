@@ -65,11 +65,11 @@ function StopFHEM {
 	echo 'SIGTERM signal received, sending "shutdown" command to FHEM!'
 	echo
 	cd /opt/fhem
-	fhem.pl 7072 shutdown
+	perl fhem.pl 7072 shutdown
 	echo 'Waiting for FHEM process to terminate before stopping container:'
 	while [ -e $PIDFILE ]; do
-		let COUNTDOWN++
-		echo "waiting - $COUNTDOWN"
+		let COUNTUP++
+		echo "waiting - $COUNTUP"
 		sleep 1
 	done
 	echo 'FHEM process terminated, stopping container. Bye!'
@@ -81,8 +81,6 @@ function StopFHEM {
 
 echo 
 echo '-------------------------------------------------------------------------------------------------------------------------'
-echo " PID = $$"
- 
 if [ -z $2 ]; then
     echo 'Error: Not enough arguments provided, please provide Arg1=initialize/extract and Arg2=/abs/path/to/directory/'
     exit 1
