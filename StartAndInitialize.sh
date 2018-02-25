@@ -21,16 +21,38 @@ set -x
 
 ### Functions to start FHEM ###
 
+function MonitorFHEM {
+	oldlines=`wc -l < ./fhem.log`
+	while true; do 
+		if [ -z $(pgrep -f "bash fhemdummy.sh") ]; then
+			countdown=10
+			echo "FHEM process terminated, waiting for $countdown seconds before stoping container:"
+			while [ -z $(pgrep -f "bash fhemdummy.sh") ] && [ $countdown -gt 0 ]; do
+				sleep 1
+				echo "waiting - $countdown"
+				let countdown--
+			done
+			sleep 1
+			if [ -z $(pgrep -f "bash fhemdummy.sh") ]; then
+				echo '0 - Stopping Container!'
+				exit 1
+			else
+				echo 'FHEM process reappeared, container still running:'
+			fi
+		fi
+		lines=`wc -l < ./fhem.log`
+		tail -n `expr $lines - $oldlines` /Users/joschamiddendorf/Desktop/script/fhem.log
+		oldlines=$lines
+		sleep 0.1
+	done
+}
 function StartFHEM {
 	echo
 	echo 'Starting FHEM:'
 	echo
 	cd /opt/fhem
 	perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
-	#while :			# This is the same as "while true".
-	#do
-        #	sleep 1	# This script is not really doing anything.
-	#done
+	#MonitorFHEM
 }
 function StartFHEMandUpdate {
 	echo
@@ -43,6 +65,7 @@ function StartFHEMandUpdate {
 	echo
 	cd /opt/fhem
 	perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
+	#MonitorFHEM
 }
 
 
