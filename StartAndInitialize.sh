@@ -34,6 +34,7 @@ function StartFHEM {
 	
 	## Docker stop sinal handler
 	function StopFHEM {
+		set -x
 		echo
 		echo 'SIGTERM signal received, sending "shutdown" command to FHEM!'
 		echo
@@ -45,6 +46,7 @@ function StartFHEM {
 		sleep 1
 		echo 'FHEM process terminated, stopping container. Bye!'
 		sleep 1
+		set +x
 		exit 0
 	}
 	
@@ -85,7 +87,7 @@ function StartFHEM {
 			echo
 			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
 			sleep 1
-			while [ ! -d /proc/`cat $PIDFILE` ] && [ $COUNTDOWN -gt 0 ]; do		## FHEM exited unexpectedly
+			while [ ! -d /proc/`cat $PIDFILE` ] && [ $COUNTDOWN -gt 0 ]; do		## FHEM exited unexpectedly #######
 				echo "waiting - $COUNTDOWN"
 				let COUNTDOWN--
 				sleep 1
