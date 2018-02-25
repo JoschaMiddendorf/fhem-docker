@@ -46,7 +46,7 @@ function StartFHEM {
 	## Evetually update FHEM
 	if [ $UPDATE -eq 1 ]; then
 		echo
-		echo 'Performing initial update of FHEM...'
+		echo 'Performing initial update of FHEM, this may take a minute...'
 		echo
 		PID=`cat $PIDFILE`
 		perl /opt/fhem/fhem.pl 7072 update
