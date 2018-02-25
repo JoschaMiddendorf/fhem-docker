@@ -44,7 +44,7 @@ function StartFHEM {
 			done
 			sleep 1
 			if [ ! -e $PIDFILE ]; then
-				echo '0 - Stopping Container!'
+				echo '0 - Stopping Container. Bye!'
 				exit 1
 			else
 				echo 'FHEM process reappeared, container still running:'
