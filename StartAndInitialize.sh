@@ -35,7 +35,7 @@ function StartFHEM {
 	while [ ! -e $PIDFILE ]; do
 		sleep 0.1
 	done
-	if [ $UPDATE==1]; then
+	if [ $UPDATE==1 ]; then
 		echo 'Performing initial update of FHEM...'
 		sleep 2
 		perl fhem.pl 7072 update
