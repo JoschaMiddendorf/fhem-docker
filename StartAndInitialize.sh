@@ -64,7 +64,8 @@ function StopFHEM {
 	echo
 	echo 'SIGTERM signal received, sending "shutdown" command to FHEM!'
 	echo
-	opt/fhem/fhem.pl 7072 shutdown
+	cd /opt/fhem
+	fhem.pl 7072 shutdown
 	echo 'Waiting for FHEM process to terminate before stopping container:'
 	while [ -e $PIDFILE ]; do
 		let COUNTDOWN++
