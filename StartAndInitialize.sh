@@ -35,6 +35,7 @@ function StartFHEM {
 	while [ ! -e $PIDFILE ]; do
 		sleep 0.1
 	done
+set -x
 	if [ $UPDATE==1 ]; then
 		echo 'Performing initial update of FHEM...'
 		sleep 2
@@ -54,7 +55,7 @@ function StartFHEM {
 		echo 'FHEM Restarted!'
 		echo
 	fi
-
+set -x
 	while true; do 
 		if [ ! -e $PIDFILE ]; then
 			COUNTDOWN=10
