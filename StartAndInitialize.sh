@@ -40,10 +40,10 @@ set -x
 		echo 'Performing initial update of FHEM...'
 		sleep 2
 		PID=`cat $PIDFILE`
-		#perl /opt/fhem/fhem.pl 7072 update
-		sleep 5
-		#perl /opt/fhem/fhem.pl 7072 "shutdown restart"
-		while [ ! -e $PIDFILE ] || [ $PID==`cat $PIDFILE` ]; do
+		perl /opt/fhem/fhem.pl 7072 update
+		#sleep 5
+		perl /opt/fhem/fhem.pl 7072 "shutdown restart"
+		while [ ! -e $PIDFILE ] || [ $PID -eq `cat $PIDFILE` ]; do
 			sleep 10
 		done
 		echo
