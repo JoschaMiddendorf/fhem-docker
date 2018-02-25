@@ -50,7 +50,6 @@ function StartFHEM {
 				echo 'FHEM process reappeared, container still running:'
 			fi
 		fi
-		LOGFILE=`date +'/opt/fhem/log/fhem-%Y-%m.log'`
 		LINES=`wc -l < $LOGFILE`
 		tail -n `expr $LINES - $OLDLINES` $LOGFILE
 		OLDLINES=$LINES
