@@ -16,13 +16,12 @@
 ##################################################################################################
 
 ## turn on Debugging
-set -x
+#set -x
 
 
 ### Functions to start FHEM ###
 
 function MonitorFHEM {
-	echo `date +'./fhem-%Y-%m.log'`
 	logfile=`date +'./fhem-%Y-%m.log'`
 	processname="bash fhemdummy.sh"
 	oldlines=`wc -l < $logfile`
@@ -56,8 +55,8 @@ function StartFHEM {
 	echo 'Starting FHEM:'
 	echo
 	cd /opt/fhem
-	perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
-	#MonitorFHEM
+	perl fhem.pl fhem.cfg	# | tee /opt/fhem/log/fhem.log
+	MonitorFHEM
 }
 
 function StartFHEMandUpdate {
@@ -70,8 +69,8 @@ function StartFHEMandUpdate {
 	echo Starting FHEM:
 	echo
 	cd /opt/fhem
-	perl fhem.pl fhem.cfg | tee /opt/fhem/log/fhem.log
-	#MonitorFHEM
+	perl fhem.pl fhem.cfg	# | tee /opt/fhem/log/fhem.log
+	MonitorFHEM
 }
 
 
@@ -82,6 +81,7 @@ function StopFHEM {
 	echo 'SIGTERM signal received, sending "shutdown" command to FHEM!'
 	echo
 	opt/fhem/fhem.pl 7072 shutdown
+	#warten bis prozess beendet dann ende
 }
 
 trap "StopFHEM" SIGTERM SIGINT
@@ -145,4 +145,4 @@ case $1 in
 esac
 
 ## turn off Debugging
-set +x
+#set +x
