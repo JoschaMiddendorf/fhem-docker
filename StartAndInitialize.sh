@@ -117,6 +117,7 @@ function StopFHEM {
 		sleep 1
 	done
 	echo 'FHEM process terminated, stopping container. Bye!'
+	sleep 1
 	exit 0
 }
 
