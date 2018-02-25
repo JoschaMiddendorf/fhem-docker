@@ -21,56 +21,43 @@
 
 ### Functions to start FHEM ###
 
-function MonitorFHEM {
-	logfile=`date +'/opt/fhem/log/fhem-%Y-%m.log'`
-	processname="bash fhemdummy.sh"
-	oldlines=`wc -l < $logfile`
-	
-	while true; do 
-		#if [ -z $(pgrep -f "$processname") ]; then
-		#	countdown=10
-		#	echo "FHEM process terminated, waiting for $countdown seconds before stoping container:"
-		#	while [ -z $(pgrep -f "$processname") ] && [ $countdown -gt 0 ]; do
-		#		sleep 1
-		#		echo "waiting - $countdown"
-		#		let countdown--
-		#	done
-		#	sleep 1
-		#	if [ -z $(pgrep -f "$processname") ]; then
-		#		echo '0 - Stopping Container!'
-		#		exit 1
-		#	else
-		#		echo 'FHEM process reappeared, container still running:'
-		#	fi
-		#fi
-		#lines=`wc -l < $logfile`
-		#tail -n `expr $lines - $oldlines` $logfile
-		#oldlines=$lines
-		sleep 0.1
-	done
-}
-
 function StartFHEM {
+	set -x
+	LOGFILE=`date +'/opt/fhem/log/fhem-%Y-%m.log'`
+	PIDFILE=/opt/fhem/log/fhem.pid 
+	OLDLINES=`wc -l < $LOGFILE`
+	
 	echo
 	echo 'Starting FHEM:'
 	echo
 	cd /opt/fhem
-	perl fhem.pl fhem.cfg	# | tee /opt/fhem/log/fhem.log
-	MonitorFHEM
-}
-
-function StartFHEMandUpdate {
-	echo
-	echo '!  Almost ready... You are about to start FHEM for the first time.'
-	echo '!  Please connect to FHEM via http://YourLocalIP:8083 '
-	echo '!  and execute the command "update" (without the "") first before you do anything else."'
-	echo '!  As soon as the update is complete, execute "shutdown restart" and have fun!'
-	echo
-	echo Starting FHEM:
-	echo
-	cd /opt/fhem
-	perl fhem.pl fhem.cfg	# | tee /opt/fhem/log/fhem.log
-	MonitorFHEM
+	trap "StopFHEM" SIGTERM SIGINT
+	perl fhem.pl fhem.cfg
+	
+	while true; do 
+		if [ ! -e $PIDFILE ]; then
+			COUNTDOWN=10
+			echo "FHEM process terminated, waiting for $COUNTDOWN seconds before stopping container:"
+			while [ ! -e $PIDFILE ] && [ $COUNTDOWN -gt 0 ]; do
+				sleep 1
+				echo "waiting - $COUNTDOWN"
+				let COUNTDOWN--
+			done
+			sleep 1
+			if [ ! -e $PIDFILE ]; then
+				echo '0 - Stopping Container!'
+				exit 1
+			else
+				echo 'FHEM process reappeared, container still running:'
+			fi
+		fi
+		LOGFILE=`date +'/opt/fhem/log/fhem-%Y-%m.log'`
+		LINES=`wc -l < $LOGFILE`
+		tail -n `expr $LINES - $OLDLINES` $LOGFILE
+		OLDLINES=$LINES
+		sleep 1
+	done
+set +x
 }
 
 
@@ -81,10 +68,15 @@ function StopFHEM {
 	echo 'SIGTERM signal received, sending "shutdown" command to FHEM!'
 	echo
 	opt/fhem/fhem.pl 7072 shutdown
-	#warten bis prozess beendet dann ende
+	echo 'Waiting for FHEM process to terminate before stopping container:"
+	while [ -e $PIDFILE ]; do
+		let COUNTDOWN++
+		echo "waiting - $COUNTDOWN"
+		sleep 1
+	done
+	echo 'FHEM process terminated, stopping container. Bye!'
+	exit 0
 }
-
-trap "StopFHEM" SIGTERM SIGINT
 
 
 ### Start of Script ###
@@ -120,21 +112,24 @@ case $1 in
 		if [ -e $PACKAGE.extracted ]; then
 			echo "The package $PACKAGE was already extracted before, no extraction processed!"
 			StartFHEM
-			exit
 		fi
 		
 		# check if directory $2 is empty
 		if 	[ "$(ls -A $2)" ]; then
 			echo "Directory $2 isn't empty, no extraction processed!"
 			StartFHEM
-			exit
 		else 
 			# check if $PACKAGE exists
 			if [ -e $PACKAGE ]; then
 				tar -xzkf $PACKAGE -C / 
 				touch $PACKAGE.extracted
 				echo "Extracted package $PACKAGE to $2 to initialize the configuration directory."
-				StartFHEMandUpdate
+				echo
+				echo '!  Almost ready... You are about to start FHEM for the first time.'
+				echo '!  Please connect to FHEM via http://YourLocalIP:8083 '
+				echo '!  and execute the command "update" (without the "") first before you do anything else.'
+				echo '!  As soon as the update is complete, execute "shutdown restart" and have fun!'
+				StartFHEM
 			fi
 		fi	
 		;;
@@ -143,6 +138,3 @@ case $1 in
 		exit 1
 	;;
 esac
-
-## turn off Debugging
-#set +x
