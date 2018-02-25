@@ -46,16 +46,16 @@ set -x
 		echo 'Restarting FHEM...'
 		perl fhem.pl 7072 "shutdown restart"
 		while [ -e $PIDFILE ]; do
-			sleep 0.1
+			sleep 1
 		done
 		while [ ! -e $PIDFILE ]; do
-			sleep 0.1
+			sleep 1
 		done
 		echo
 		echo 'FHEM Restarted!'
 		echo
 	fi
-set -x
+set +x
 	while true; do 
 		if [ ! -e $PIDFILE ]; then
 			COUNTDOWN=10
