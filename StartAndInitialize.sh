@@ -32,8 +32,28 @@ function StartFHEM {
 	cd /opt/fhem
 	trap "StopFHEM" SIGTERM SIGINT
 	perl fhem.pl fhem.cfg
-	
-	
+	while [ ! -e $PIDFILE ]; do
+		sleep 0.1
+	done
+    if [ $UPDATE==1]; then
+        echo 'Performing initial update of FHEM...'
+        sleep 2
+        perl fhem.pl 7072 update
+        sleep 20 #tail log and grep end
+        echo 'Update finish 20sec!'
+        echo
+        echo 'Restarting FHEM...'
+        perl fhem.pl 7072 "shutdown restart"
+        while [ -e $PIDFILE ]; do
+		  sleep 0.1
+        done
+        while [ ! -e $PIDFILE ]; do
+		  sleep 0.1
+        done
+        echo 'FHEM Restarted!'
+        echo
+	fi
+        
 	while true; do 
 		if [ ! -e $PIDFILE ]; then
 			COUNTDOWN=10
@@ -54,9 +74,6 @@ function StartFHEM {
 			echo
 			echo 'FHEM:'
 			echo
-		fi
-		if [ $UPDATE==1]; then
-		
 		fi
 		LINES=`wc -l < $LOGFILE`
 		tail -n `expr $LINES - $OLDLINES` $LOGFILE
