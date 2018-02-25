@@ -33,9 +33,11 @@ function StartFHEM {
 	trap "StopFHEM" SIGTERM SIGINT
 	perl fhem.pl fhem.cfg
 	
+	
 	while true; do 
 		if [ ! -e $PIDFILE ]; then
 			COUNTDOWN=10
+			echo
 			echo "FHEM process terminated, waiting for $COUNTDOWN seconds before stopping container:"
 			while [ ! -e $PIDFILE ] && [ $COUNTDOWN -gt 0 ]; do
 				sleep 1
@@ -49,6 +51,12 @@ function StartFHEM {
 			else
 				echo 'FHEM process reappeared, container still running:'
 			fi
+			echo
+			echo 'FHEM:'
+			echo
+		fi
+		if [ $UPDATE==1]; then
+		
 		fi
 		LINES=`wc -l < $LOGFILE`
 		tail -n `expr $LINES - $OLDLINES` $LOGFILE
@@ -121,10 +129,11 @@ case $1 in
 				touch $PACKAGE.extracted
 				echo "Extracted package $PACKAGE to $2 to initialize the configuration directory."
 				echo
-				echo '!  Almost ready... You are about to start FHEM for the first time.'
-				echo '!  Please connect to FHEM via http://YourLocalIP:8083 '
-				echo '!  and execute the command "update" (without the "") first before you do anything else.'
-				echo '!  As soon as the update is complete, execute "shutdown restart" and have fun!'
+				UPDATE=1
+				#echo '!  Almost ready... You are about to start FHEM for the first time.'
+				#echo '!  Please connect to FHEM via http://YourLocalIP:8083 '
+				#echo '!  and execute the command "update" (without the "") first before you do anything else.'
+				#echo '!  As soon as the update is complete, execute "shutdown 
 				StartFHEM
 			fi
 		fi	
