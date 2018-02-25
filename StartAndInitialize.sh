@@ -19,7 +19,7 @@
 ### Functions to start FHEM ###
 
 function StartFHEM {
-set -x
+#set -x
 	LOGFILE=`date +'/opt/fhem/log/fhem-%Y-%m.log'`
 	PIDFILE=/opt/fhem/log/fhem.pid 
 	SLEEPINTERVAL=0.5
@@ -98,7 +98,7 @@ set -x
 		PrintNewLines								## Printing log lines in intervalls
 		sleep $SLEEPINTERVAL
 	done
-set +x
+#set +x
 }
 
 
