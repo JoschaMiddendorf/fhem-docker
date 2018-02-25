@@ -36,7 +36,7 @@ function StartFHEM {
 		sleep 0.1
 	done
 set -x
-	if [ $UPDATE==1 ]; then
+	if [ $UPDATE -eq 1 ]; then
 		echo 'Performing initial update of FHEM...'
 		sleep 2
 		perl fhem.pl 7072 update
@@ -134,12 +134,14 @@ case $1 in
 		PACKAGE=$PACKAGEDIR/`echo $2 | tr '[/]' '-'`.tgz
 		if [ -e $PACKAGE.extracted ]; then
 			echo "The package $PACKAGE was already extracted before, no extraction processed!"
+			UPDATE=0
 			StartFHEM
 		fi
 		
 		# check if directory $2 is empty
 		if 	[ "$(ls -A $2)" ]; then
 			echo "Directory $2 isn't empty, no extraction processed!"
+			UPDATE=0
 			StartFHEM
 		else 
 			# check if $PACKAGE exists
@@ -147,12 +149,7 @@ case $1 in
 				tar -xzkf $PACKAGE -C / 
 				touch $PACKAGE.extracted
 				echo "Extracted package $PACKAGE to $2 to initialize the configuration directory."
-				echo
-				UPDATE=1
-				#echo '!  Almost ready... You are about to start FHEM for the first time.'
-				#echo '!  Please connect to FHEM via http://YourLocalIP:8083 '
-				#echo '!  and execute the command "update" (without the "") first before you do anything else.'
-				#echo '!  As soon as the update is complete, execute "shutdown 
+				UPDATE=1 
 				StartFHEM
 			fi
 		fi	
