@@ -44,7 +44,7 @@ set -x
 		sleep 5
 		perl /opt/fhem/fhem.pl 7072 "shutdown restart"
 		while [ ! -e $PIDFILE ] || [ $PID==`cat $PIDFILE` ]; do
-			sleep 0.1
+			sleep 2
 		done
 		echo
 		echo 'FHEM updated and restarted!'
