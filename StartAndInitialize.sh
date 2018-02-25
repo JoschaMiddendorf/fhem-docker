@@ -15,17 +15,21 @@
 ##
 ##################################################################################################
 
-## turn on Debugging
-#set -x
-
 
 ### Functions to start FHEM ###
 
 function StartFHEM {
 	LOGFILE=`date +'/opt/fhem/log/fhem-%Y-%m.log'`
 	PIDFILE=/opt/fhem/log/fhem.pid 
-	OLDLINES=`wc -l < $LOGFILE`
 	
+	OLDLINES=`wc -l < $LOGFILE`
+	function PrintNewLines {
+		LINES=`wc -l < $LOGFILE`
+		tail -n `expr $LINES - $OLDLINES` $LOGFILE
+		OLDLINES=$LINES
+	}
+	
+	## Start FHEM
 	echo
 	echo 'Starting FHEM:'
 	echo
@@ -35,46 +39,54 @@ function StartFHEM {
 	while [ ! -e $PIDFILE ]; do
 		sleep 0.1
 	done
-set -x
+	
+	PrintNewLines
+	
+	## Evetually update FHEM
 	if [ $UPDATE -eq 1 ]; then
+		echo
 		echo 'Performing initial update of FHEM...'
-		sleep 2
+		echo
 		PID=`cat $PIDFILE`
 		perl /opt/fhem/fhem.pl 7072 update
-		#sleep 5
+		PrintNewLines
+		echo
+		echo 'Restarting FHEM after initial update...'
+		echo
 		perl /opt/fhem/fhem.pl 7072 "shutdown restart"
 		while [ ! -e $PIDFILE ] || [ $PID -eq `cat $PIDFILE` ]; do
-			sleep 10
+			sleep 0.1
 		done
+		PrintNewLines
 		echo
 		echo 'FHEM updated and restarted!'
+		echo 'FHEM is up and running now:'
 		echo
 	fi
-set +x
+	
+	## Monitor FHEM during runtime
 	while true; do 
-		if [ ! -e $PIDFILE ]; then
+		if [ ! -e $PIDFILE ]; then						## FHEM is running
 			COUNTDOWN=10
 			echo
-			echo "FHEM process terminated, waiting for $COUNTDOWN seconds before stopping container:"
-			while [ ! -e $PIDFILE ] && [ $COUNTDOWN -gt 0 ]; do
+			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
+			while [ ! -e $PIDFILE ] && [ $COUNTDOWN -gt 0 ]; do		## FHEM exits unexpectedly
 				sleep 1
 				echo "waiting - $COUNTDOWN"
 				let COUNTDOWN--
 			done
 			sleep 1
-			if [ ! -e $PIDFILE ]; then
+			if [ ! -e $PIDFILE ]; then					## FHEM didn't reappeared
 				echo '0 - Stopping Container. Bye!'
 				exit 1
-			else
-				echo 'FHEM process reappeared, container still running:'
+			else								## FHEM reappeared
+				echo 'FHEM process reappeared, kept container alive!'
 			fi
 			echo
-			echo 'FHEM:'
+			echo 'FHEM is up and running:'
 			echo
 		fi
-		LINES=`wc -l < $LOGFILE`
-		tail -n `expr $LINES - $OLDLINES` $LOGFILE
-		OLDLINES=$LINES
+		PrintNewLines								## Printing log lines in intervalls
 		sleep 0.1
 	done
 }
