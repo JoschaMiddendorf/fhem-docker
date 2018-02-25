@@ -112,11 +112,13 @@ function StopFHEM {								##############
 	perl fhem.pl 7072 shutdown
 	echo 'Waiting for FHEM process to terminate before stopping container:'
 	( tail -f -n0 $LOGFILE & ) | grep -q 'Server shutdown'					## Wait for FHEM stop
-	while [ -e $PIDFILE ]; do
-		let COUNTUP++
-		echo "waiting - $COUNTUP"
-		sleep 1
-	done
+	#while [ -e $PIDFILE ]; do
+	#	let COUNTUP++
+	#	echo "waiting - $COUNTUP"
+	#	sleep 1
+	#done
+	PrintNewLines
+	sleep 1
 	echo 'FHEM process terminated, stopping container. Bye!'
 	sleep 1
 	exit 0
