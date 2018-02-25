@@ -75,12 +75,12 @@ function StartFHEM {
 			COUNTDOWN=10
 			echo
 			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
+			sleep 1
 			while [ ! -e $PIDFILE ] && [ $COUNTDOWN -gt 0 ]; do		## FHEM exited unexpectedly
-				sleep 1
 				echo "waiting - $COUNTDOWN"
 				let COUNTDOWN--
+				sleep 1
 			done
-			sleep 1
 			if [ ! -e $PIDFILE ]; then					## FHEM didn't reappeared
 				echo
 				echo '0 - Stopping Container. Bye!'
