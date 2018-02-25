@@ -21,6 +21,7 @@
 function StartFHEM {
 	LOGFILE=`date +'/opt/fhem/log/fhem-%Y-%m.log'`
 	PIDFILE=/opt/fhem/log/fhem.pid 
+	SLEEPINTERVAL=0.2
 	
 	## Function to print FHEM log in incremental steps to the docker log.
 	OLDLINES=`wc -l < $LOGFILE`
@@ -38,7 +39,7 @@ function StartFHEM {
 	trap "StopFHEM" SIGTERM SIGINT
 	perl fhem.pl fhem.cfg
 	while [ ! -e $PIDFILE ]; do
-		sleep 0.1
+		sleep $SLEEPINTERVAL
 	done
 	
 	## Evetually update FHEM
@@ -58,7 +59,7 @@ function StartFHEM {
 		perl /opt/fhem/fhem.pl 7072 "shutdown restart"
 		( tail -f -n0 $LOGFILE & ) | grep -q 'Server started'			## Wait for FHEM tp start up
 		#while [ ! -e $PIDFILE ] || [ $PID -eq `cat $PIDFILE` ]; do
-		#	sleep 0.1
+		#	sleep $SLEEPINTERVAL
 		#done
 		PrintNewLines
 		echo
@@ -80,9 +81,11 @@ function StartFHEM {
 			done
 			sleep 1
 			if [ ! -e $PIDFILE ]; then					## FHEM didn't reappeared
+				echo
 				echo '0 - Stopping Container. Bye!'
 				exit 1
 			else								## FHEM reappeared
+				echo
 				echo 'FHEM process reappeared, kept container alive!'
 			fi
 			echo
@@ -90,7 +93,7 @@ function StartFHEM {
 			echo
 		fi
 		PrintNewLines								## Printing log lines in intervalls
-		sleep 0.1
+		sleep $SLEEPINTERVAL
 	done
 }
 
