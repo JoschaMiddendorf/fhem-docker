@@ -39,20 +39,13 @@ set -x
 	if [ $UPDATE -eq 1 ]; then
 		echo 'Performing initial update of FHEM...'
 		sleep 2
-		perl fhem.pl 7072 update
-		sleep 20 #tail log and grep end
-		echo 'Update finish 20sec!'
-		echo
-		echo 'Restarting FHEM...'
-		perl fhem.pl 7072 "shutdown restart"
-		while [ -e $PIDFILE ]; do
-			sleep 0.1
-		done
-		while [ ! -e $PIDFILE ]; do
+		PID=`cat $PIDFILE`
+		echo `perl /opt/fhem/fhem.pl 7072 update && perl /opt/fhem/fhem.pl 7072 "shutdown restart"
+		while [ ! -e $PIDFILE ] || [ PID==`cat $PIDFILE` ]; do
 			sleep 0.1
 		done
 		echo
-		echo 'FHEM Restarted!'
+		echo 'FHEM updated and restarted!'
 		echo
 	fi
 set +x
