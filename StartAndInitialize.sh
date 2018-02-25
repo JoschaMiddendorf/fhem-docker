@@ -71,6 +71,7 @@ function StartFHEM {
 	## Monitor FHEM during runtime
 	while true; do 
 		if [ ! -e $PIDFILE ]; then						## FHEM is running
+			set -x
 			COUNTDOWN=10
 			echo
 			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
@@ -87,10 +88,12 @@ function StartFHEM {
 			else								## FHEM reappeared
 				echo
 				echo 'FHEM process reappeared, kept container alive!'
+				sleep $SLEEPINTERVAL
 			fi
 			echo
 			echo 'FHEM is up and running again:'
 			echo
+			set +x
 		fi
 		PrintNewLines								## Printing log lines in intervalls
 		sleep $SLEEPINTERVAL
