@@ -39,7 +39,7 @@ function StartFHEM {
 		cd /opt/fhem
 		perl fhem.pl 7072 shutdown
 		echo 'Waiting for FHEM process to terminate before stopping container:'
-		grep -q "Server shutdown" <(tail -f $LOGFILE)					## Wait for FHEM stop
+		grep -q "Server shutdown" < (tail -f $LOGFILE)					## Wait for FHEM stop
 		PrintNewLines
 		sleep 1
 		echo 'FHEM process terminated, stopping container. Bye!'
@@ -54,7 +54,7 @@ function StartFHEM {
 	cd /opt/fhem
 	trap "StopFHEM" SIGTERM
 	perl fhem.pl fhem.cfg
-	grep -q "Server started" <(tail -f $LOGFILE)						## Wait for FHEM tp start up
+	grep -q "Server started" < (tail -f $LOGFILE)						## Wait for FHEM tp start up
 	PrintNewLines
 	
 	## Evetually update FHEM
@@ -64,14 +64,14 @@ function StartFHEM {
 		echo
 		perl /opt/fhem/fhem.pl 7072 update
 		#( tail -f -n0 $LOGFILE & ) | grep -q 'update finished'
-		grep -q "update finished" <(tail -f $LOGFILE)					## Wait for update to finish
+		grep -q "update finished" < (tail -f $LOGFILE)					## Wait for update to finish
 		PrintNewLines
 		echo
 		echo 'Restarting FHEM after initial update...'
 		echo
 		perl /opt/fhem/fhem.pl 7072 "shutdown restart"
 		#( tail -f -n0 $LOGFILE & ) | grep -q 'Server started'
-		grep -q "Server started" <(tail -f $LOGFILE)					## Wait for FHEM tp start up
+		grep -q "Server started" < (tail -f $LOGFILE)					## Wait for FHEM tp start up
 		PrintNewLines
 		echo
 		echo 'FHEM updated and restarted!'
