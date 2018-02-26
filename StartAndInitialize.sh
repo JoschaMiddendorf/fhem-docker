@@ -39,11 +39,11 @@ function StartFHEM {
 		cd /opt/fhem
 		perl fhem.pl 7072 shutdown
 		echo 'Waiting for FHEM process to terminate before stopping container:'
+		echo
 		grep -q "Server shutdown" < (tail -f $LOGFILE)					## Wait for FHEM stop
 		PrintNewLines
-		sleep 1
+		echo
 		echo 'FHEM process terminated, stopping container. Bye!'
-		sleep 1
 		exit 0
 	}
 	
