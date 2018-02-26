@@ -89,6 +89,10 @@ function StartFHEM {
 				let COUNTDOWN--
 				sleep 1
 				read PID < $PIDFILE
+				read PID < $PIDFILE
+				read PID < $PIDFILE
+				read PID < $PIDFILE
+				read PID < $PIDFILE
 			done
 			if [ ! -d /proc/$PID ]; then						## FHEM didn't reappeared
 				echo
