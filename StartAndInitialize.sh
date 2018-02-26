@@ -81,7 +81,6 @@ function StartFHEM {
 	
 	## Monitor FHEM during runtime
 	while true; do
-		set -x
 		read PID < $PIDFILE
 		if [ ! -d /proc/$PID ]; then							## FHEM is running
 			COUNTDOWN=10
@@ -107,7 +106,6 @@ function StartFHEM {
 		fi
 		PrintNewLines									## Printing log lines in intervalls
 		sleep $SLEEPINTERVAL
-		set +x
 	done
 }
 
