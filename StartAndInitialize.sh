@@ -80,7 +80,7 @@ function StartFHEM {
 	
 	## Monitor FHEM during runtime
 	while true; do
-		if [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")"; then						## FHEM is running
+		if [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")"; then					## FHEM is running
 			COUNTDOWN=10
 			echo
 			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
@@ -89,7 +89,7 @@ function StartFHEM {
 				(( COUNTDOWN-- ))
 				sleep 1
 			done
-			if [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")"; then					## FHEM didn't reappeared
+			if [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")"; then				## FHEM didn't reappeared
 				echo '0 - Stopping Container. Bye!'
 				exit 1
 			else											## FHEM reappeared
