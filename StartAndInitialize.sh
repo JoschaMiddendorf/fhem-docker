@@ -19,15 +19,15 @@
 ### Functions to start FHEM ###
 
 function StartFHEM {
-	LOGFILE=`date +'/opt/fhem/log/fhem-%Y-%m.log'`
+	LOGFILE=$(date +'/opt/fhem/log/fhem-%Y-%m.log')
 	PIDFILE=/opt/fhem/log/fhem.pid 
 	SLEEPINTERVAL=0.2
 	
 	## Function to print FHEM log in incremental steps to the docker log.
-	OLDLINES=`wc -l < $LOGFILE`
+	OLDLINES=$(wc -l < $LOGFILE)
 	function PrintNewLines {
-		LINES=`wc -l < $LOGFILE`
-		tail -n `expr $LINES - $OLDLINES` $LOGFILE
+		LINES=$(wc -l < $LOGFILE)
+		tail -n $(expr $LINES - $OLDLINES) $LOGFILE
 		OLDLINES=$LINES
 	}
 	
@@ -127,7 +127,7 @@ case $1 in
 		echo 
 		## check if $2 is a extsting directory
 		if  [ -d  $2 ]; then  
-			PACKAGE=$PACKAGEDIR/`echo $2 | tr '[/]' '-'`.tgz
+			PACKAGE=$PACKAGEDIR/$(echo $2 | tr '[/]' '-').tgz
 			tar -czf $PACKAGE $2
 			echo "Created package $PACKAGE from $2."
 		fi
@@ -136,7 +136,7 @@ case $1 in
 		echo 'Extracting config data to /opt/fhem/ if empty:'
 		echo 
 		## check if $PACKAGE was extracted before
-		PACKAGE=$PACKAGEDIR/`echo $2 | tr '[/]' '-'`.tgz
+		PACKAGE=$PACKAGEDIR/$(echo $2 | tr '[/]' '-').tgz
 		if [ -e $PACKAGE.extracted ]; then
 			echo "The package $PACKAGE was already extracted before, no extraction processed!"
 			UPDATE=0
