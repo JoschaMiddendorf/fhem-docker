@@ -40,7 +40,7 @@ function StartFHEM {
 		perl fhem.pl 7072 shutdown
 		echo 'Waiting for FHEM process to terminate before stopping container:'
 		echo
-		grep -q "Server shutdown" <(tail -f $LOGFILE)					## Wait for FHEM stop
+		grep -q "Server shutdown" <(tail -f $LOGFILE)							## Wait for FHEM stop
 		PrintNewLines
 		echo
 		echo 'FHEM process terminated, stopping container. Bye!'
@@ -54,7 +54,7 @@ function StartFHEM {
 	cd /opt/fhem
 	trap "StopFHEM" SIGTERM
 	perl fhem.pl fhem.cfg
-	grep -q "Server started" <(tail -f $LOGFILE)						## Wait for FHEM tp start up
+	grep -q "Server started" <(tail -f $LOGFILE)								## Wait for FHEM tp start up
 	PrintNewLines
 	
 	## Evetually update FHEM
@@ -63,13 +63,13 @@ function StartFHEM {
 		echo 'Performing initial update of FHEM, this may take a minute...'
 		echo
 		perl /opt/fhem/fhem.pl 7072 update > /dev/null
-		grep -q "update finished" <(tail -f $LOGFILE)					## Wait for update to finish
+		grep -q "update finished" <(tail -f $LOGFILE)							## Wait for update to finish
 		PrintNewLines
 		echo
 		echo 'Restarting FHEM after initial update...'
 		echo
 		perl /opt/fhem/fhem.pl 7072 "shutdown restart"
-		grep -q "Server started" <(tail -f $LOGFILE)					## Wait for FHEM tp start up
+		grep -q "Server started" <(tail -f $LOGFILE)							## Wait for FHEM tp start up
 		PrintNewLines
 		echo
 		echo 'FHEM updated and restarted!'
@@ -80,31 +80,26 @@ function StartFHEM {
 	
 	## Monitor FHEM during runtime
 	while true; do
-		#test -f $PIDFILE && read PID < $PIDFILE
-		set -x
 		if [ ! -f $PIDFILE ] || ! kill -0 $(<"$PIDFILE"); then						## FHEM is running
 			COUNTDOWN=10
 			echo
 			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
-			#[ ! -d /proc/$PID ]
 			while ( [ ! -f $PIDFILE ] || ! kill -0 $(<"$PIDFILE") ) && [ $COUNTDOWN -gt 0 ]; do	## FHEM exited unexpectedly
 				echo "waiting - $COUNTDOWN"
 				let COUNTDOWN--
 				sleep 1
-				test -f $PIDFILE && read PID < $PIDFILE
 			done
 			if [ ! -f $PIDFILE ] || ! kill -0 $(<"$PIDFILE"); then					## FHEM didn't reappeared
 				echo '0 - Stopping Container. Bye!'
 				exit 1
-			else										## FHEM reappeared
+			else											## FHEM reappeared
 				echo 'FHEM process reappeared, kept container alive!'
 			fi
 			echo
 			echo 'FHEM is up and running again:'
 			echo
 		fi
-		set +x
-		PrintNewLines										## Printing log lines in intervalls
+		PrintNewLines											## Printing log lines in intervalls
 		sleep $SLEEPINTERVAL
 	done
 }
