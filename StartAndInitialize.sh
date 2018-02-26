@@ -77,7 +77,7 @@ function StartFHEM {
 		echo 'FHEM is up and running now:'
 		echo
 	fi
-	
+
 	## Monitor FHEM during runtime
 	while true; do
 		test -f $PIDFILE && read PID < $PIDFILE
