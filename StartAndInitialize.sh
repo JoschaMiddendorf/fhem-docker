@@ -62,15 +62,13 @@ function StartFHEM {
 		echo
 		echo 'Performing initial update of FHEM, this may take a minute...'
 		echo
-		perl /opt/fhem/fhem.pl 7072 update
-		#( tail -f -n0 $LOGFILE & ) | grep -q 'update finished'
+		perl /opt/fhem/fhem.pl 7072 update > /dev/null
 		grep -q "update finished" <(tail -f $LOGFILE)					## Wait for update to finish
 		PrintNewLines
 		echo
 		echo 'Restarting FHEM after initial update...'
 		echo
 		perl /opt/fhem/fhem.pl 7072 "shutdown restart"
-		#( tail -f -n0 $LOGFILE & ) | grep -q 'Server started'
 		grep -q "Server started" <(tail -f $LOGFILE)					## Wait for FHEM tp start up
 		PrintNewLines
 		echo
