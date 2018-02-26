@@ -51,9 +51,9 @@ function StartFHEM {
 	echo
 	echo 'Starting FHEM:'
 	echo
-	cd /opt/fhem
+	#cd /opt/fhem
 	trap "StopFHEM" SIGTERM
-	perl fhem.pl fhem.cfg
+	perl /opt/fhem/fhem.pl /opt/fhem/fhem.cfg
 	grep -q "Server started" <(tail -f $LOGFILE)								## Wait for FHEM tp start up
 	PrintNewLines
 	
