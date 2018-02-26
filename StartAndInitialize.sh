@@ -36,8 +36,10 @@ function StartFHEM {
 		echo
 		echo 'SIGTERM signal received, sending "shutdown" command to FHEM!'
 		echo
-		cd /opt/fhem
-		perl fhem.pl 7072 shutdown
+		set -x
+		#cd /opt/fhem
+		perl /opt/fhem/fhem.pl 7072 shutdown
+		set +x
 		echo 'Waiting for FHEM process to terminate before stopping container:'
 		echo
 		grep -q "Server shutdown" <(tail -f $LOGFILE)							## Wait for FHEM stop
@@ -51,8 +53,10 @@ function StartFHEM {
 	echo
 	echo 'Starting FHEM:'
 	echo
+	set -x
 	#cd /opt/fhem
 	trap "StopFHEM" SIGTERM
+	set +x
 	perl /opt/fhem/fhem.pl /opt/fhem/fhem.cfg
 	grep -q "Server started" <(tail -f $LOGFILE)								## Wait for FHEM tp start up
 	PrintNewLines
