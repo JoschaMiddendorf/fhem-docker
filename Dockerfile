@@ -112,6 +112,9 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 # Configure Timezone
 RUN echo Europe/Berlin > /etc/timezone && dpkg-reconfigure tzdata
 
+# Customize console
+RUN echo "alias ll='ls -lah --color=auto'" >> /root/.bashrc
+
 # Install Speedtest-CLI 
 RUN cd /usr/local/bin \
   && wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py \
