@@ -33,6 +33,7 @@ RUN apt-get -y --force-yes install \
   nano \
   nodejs \
   perl \
+  screenfetch \
   snmp \
   snmpd \
   sqlite3 \
@@ -113,7 +114,8 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN echo Europe/Berlin > /etc/timezone && dpkg-reconfigure tzdata
 
 # Customize console
-RUN echo "alias ll='ls -lah --color=auto'" >> /root/.bashrc
+RUN echo "alias ll='ls -lah --color=auto'" >> /root/.bashrc \
+  &&echo "screenfetch" >> /root/.bashrc
 
 # Install Speedtest-CLI 
 RUN cd /usr/local/bin \
