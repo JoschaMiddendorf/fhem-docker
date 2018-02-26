@@ -92,11 +92,9 @@ function StartFHEM {
 				test -f $PIDFILE && read PID < $PIDFILE
 			done
 			if [ ! -d /proc/$PID ]; then						## FHEM didn't reappeared
-				echo
 				echo '0 - Stopping Container. Bye!'
 				exit 1
 			else									## FHEM reappeared
-				echo
 				echo 'FHEM process reappeared, kept container alive!'
 			fi
 			echo
