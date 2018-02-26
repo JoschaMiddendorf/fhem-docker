@@ -73,13 +73,14 @@ function StartFHEM {
 		PrintNewLines
 		echo
 		echo 'FHEM updated and restarted!'
+		echo
 		echo 'FHEM is up and running now:'
 		echo
 	fi
 	
 	## Monitor FHEM during runtime
 	while true; do
-		read PID < $PIDFILE > /dev/null
+		read PID < $PIDFILE 2> /dev/null
 		if [ ! -d /proc/$PID ]; then							## FHEM is running
 			COUNTDOWN=10
 			echo
@@ -88,7 +89,7 @@ function StartFHEM {
 				echo "waiting - $COUNTDOWN"
 				let COUNTDOWN--
 				sleep 1
-				read PID < $PIDFILE > /dev/null
+				read PID < $PIDFILE 2> /dev/null
 			done
 			if [ ! -d /proc/$PID ]; then						## FHEM didn't reappeared
 				echo
