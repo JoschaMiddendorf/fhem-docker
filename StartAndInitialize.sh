@@ -19,7 +19,6 @@
 ### Functions to start FHEM ###
 
 function StartFHEM {
-#set -x
 	LOGFILE=`date +'/opt/fhem/log/fhem-%Y-%m.log'`
 	PIDFILE=/opt/fhem/log/fhem.pid 
 	SLEEPINTERVAL=0.2
@@ -34,20 +33,17 @@ function StartFHEM {
 	
 	## Docker stop sinal handler
 	function StopFHEM {
-		set -x
 		echo
 		echo 'SIGTERM signal received, sending "shutdown" command to FHEM!'
 		echo
 		cd /opt/fhem
 		perl fhem.pl 7072 shutdown
 		echo 'Waiting for FHEM process to terminate before stopping container:'
-		#( tail -f -n0 $LOGFILE & ) | grep -q 'Server shutdown'	
 		grep -q "Server shutdown" <(tail -f $LOGFILE)					## Wait for FHEM stop
 		PrintNewLines
 		sleep 1
 		echo 'FHEM process terminated, stopping container. Bye!'
 		sleep 1
-		set +x
 		exit 0
 	}
 	
@@ -58,7 +54,6 @@ function StartFHEM {
 	cd /opt/fhem
 	trap "StopFHEM" SIGTERM
 	perl fhem.pl fhem.cfg
-	#( tail -f -n0 $LOGFILE & ) | grep -q 'Server started'
 	grep -q "Server started" <(tail -f $LOGFILE)						## Wait for FHEM tp start up
 	PrintNewLines
 	
@@ -86,20 +81,21 @@ function StartFHEM {
 	
 	## Monitor FHEM during runtime
 	while true; do
-		if [ ! -d /proc/`cat $PIDFILE` ]; then						## FHEM is running
+		set -x
+		read PID < $PIDFILE
+		if [ ! -d /proc/$PID ]; then							## FHEM is running
 			COUNTDOWN=10
 			echo
 			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
-			sleep 1
 			while [ ! -d /proc/`cat $PIDFILE` ] && [ $COUNTDOWN -gt 0 ]; do		## FHEM exited unexpectedly #######
 				echo "waiting - $COUNTDOWN"
 				let COUNTDOWN--
 				sleep 1
+				read PID < $PIDFILE
 			done
-			if [ ! -d /proc/`cat $PIDFILE` ]; then					## FHEM didn't reappeared
+			if [ ! -d /proc/$PID ]; then						## FHEM didn't reappeared
 				echo
 				echo '0 - Stopping Container. Bye!'
-				sleep 1
 				exit 1
 			else									## FHEM reappeared
 				echo
@@ -108,12 +104,11 @@ function StartFHEM {
 			echo
 			echo 'FHEM is up and running again:'
 			echo
-			
 		fi
 		PrintNewLines									## Printing log lines in intervalls
 		sleep $SLEEPINTERVAL
+		set +x
 	done
-#set +x
 }
 
 
