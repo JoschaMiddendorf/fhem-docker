@@ -80,29 +80,29 @@ function StartFHEM {
 	
 	## Monitor FHEM during runtime
 	while true; do
-		####test -f $PIDFILE && read PID < $PIDFILE
-		if [ -f $PIDFILE ] && kill -0 $(read PID < $PIDFILE); then							## FHEM is running
+		test -f $PIDFILE && read PID < $PIDFILE
+		if [ ! -f $PIDFILE ] || ! kill -0 $PID; then						## FHEM is running
 			COUNTDOWN=10
 			echo
 			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
 			#[ ! -d /proc/$PID ]
-			while [ -f $PIDFILE ] && kill -0 $(read PID < $PIDFILE) && [ $COUNTDOWN -gt 0 ]; do	## FHEM exited unexpectedly
+			while [ [ ! -f $PIDFILE ] || ! kill -0 $PID ] && [ $COUNTDOWN -gt 0 ]; do	## FHEM exited unexpectedly
 				echo "waiting - $COUNTDOWN"
 				let COUNTDOWN--
 				sleep 1
-				####test -f $PIDFILE && read PID < $PIDFILE
+				test -f $PIDFILE && read PID < $PIDFILE
 			done
-			if [ -f $PIDFILE ] && kill -0 $(read PID < $PIDFILE); then						## FHEM didn't reappeared
+			if [ ! -f $PIDFILE ] || ! kill -0 $PID; then					## FHEM didn't reappeared
 				echo '0 - Stopping Container. Bye!'
 				exit 1
-			else									## FHEM reappeared
+			else										## FHEM reappeared
 				echo 'FHEM process reappeared, kept container alive!'
 			fi
 			echo
 			echo 'FHEM is up and running again:'
 			echo
 		fi
-		PrintNewLines									## Printing log lines in intervalls
+		PrintNewLines										## Printing log lines in intervalls
 		sleep $SLEEPINTERVAL
 	done
 }
