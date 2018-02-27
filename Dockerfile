@@ -128,11 +128,12 @@ RUN rm fhem-${FHEM_VERSION}.deb
 RUN userdel fhem
 
 
-# add basic configation and StartAndInitialisation script
+# add basic configation and scripts
 ADD fhem.cfg /opt/fhem/
 ADD controls.txt /opt/fhem/FHEM/
 ADD StartAndInitialize.sh /root/
-RUN chmod +x /root/StartAndInitialize.sh
+ADD healthcheck.sh /root/
+RUN chmod +x /root/*.sh
 
 # compress FHEM base data from /opt/fhem/ for initialisation of volumes
 RUN /root/StartAndInitialize.sh initialize /opt/fhem
@@ -143,8 +144,10 @@ EXPOSE 7072 8083 8084 8085 8086 8087 8088 8089
 # add volumes
 VOLUME /opt/fhem
 
-# Default arguments to execute the entrypoint
-#CMD /root/StartAndInitialize.sh extract /opt/fhem
+# Healthcheck
+HEALTHCHECK --interval=10 --timeout=10 --start-period=10 --retries=3 CMD /root/healthcheck.sh
+
+# Entrypoint
 ENTRYPOINT ["/root/StartAndInitialize.sh"]
 CMD ["extract", "/opt/fhem"]
 
