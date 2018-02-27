@@ -133,7 +133,7 @@ ADD fhem.cfg /opt/fhem/
 ADD controls.txt /opt/fhem/FHEM/
 ADD StartAndInitialize.sh /root/
 ADD healthcheck.sh /root/
-RUN chmod +x *.sh
+RUN chmod +x /root/*.sh
 
 # compress FHEM base data from /opt/fhem/ for initialisation of volumes
 RUN /root/StartAndInitialize.sh initialize /opt/fhem
