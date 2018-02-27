@@ -48,6 +48,7 @@ function StartFHEM {
 	}
 	
 	## Start FHEM
+	set -x
 	echo
 	echo 'Starting FHEM:'
 	echo
@@ -55,6 +56,7 @@ function StartFHEM {
 	trap "StopFHEM" SIGTERM
 	perl fhem.pl fhem.cfg
 	grep -q "Server started" <(tail -f "$LOGFILE")								## Wait for FHEM tp start up
+	set +x
 	PrintNewLines
 	
 	## Evetually update FHEM
