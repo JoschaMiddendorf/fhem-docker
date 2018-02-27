@@ -36,12 +36,16 @@ and mapp them to the container by adding argument like this to the run command: 
 
 ### Advices:
 Keep the folowing lines in your config files or add them if you are migrating from an existing config.
+
 `    attr global logfile ./log/fhem-%Y-%m.log`
+
 `    attr global nofork 0`
+
 `    attr global pidfilename /opt/fhem/log/fhem.pid`
+
 `    attr global updateInBackground 1`
+
 `    define telnetPort telnet 7072 global`
-` lsusb -v | grep -E '\<(Bus|iProduct|bDeviceClass|bDeviceProtocol)' 2>/dev/null `
 
 
 ### Commands:
