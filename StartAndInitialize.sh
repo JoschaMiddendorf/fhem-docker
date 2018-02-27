@@ -48,15 +48,13 @@ function StartFHEM {
 	}
 	
 	## Start FHEM
-	set -x
 	echo
 	echo 'Starting FHEM:'
 	echo
 	cd /opt/fhem || exit 1
 	trap "StopFHEM" SIGTERM
 	perl fhem.pl fhem.cfg
-	grep -q "Server started" <(tail -f "$LOGFILE")								## Wait for FHEM tp start up
-	set +x
+	grep -q "Server started" <(tail -f "$LOGFILE")								## Wait for FHEM to start up
 	PrintNewLines
 	
 	## Evetually update FHEM
@@ -79,7 +77,7 @@ function StartFHEM {
 		echo 'FHEM is up and running now:'
 		echo
 	fi
-	
+
 	## Monitor FHEM during runtime
 	while true; do
 		if [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")"; then					## FHEM is running
