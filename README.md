@@ -34,6 +34,15 @@ Check for usb devices on the host with  `lsusb`.
 and mapp them to the container by adding argument like this to the run command: `  --device=/dev/bus/usb/001/002 ` .
 
 
+### Advices:
+Keep the folowing lines in your config files or add them if you are migrating from an existing config.
+    attr global logfile ./log/fhem-%Y-%m.log
+    attr global nofork 0
+    attr global pidfilename /opt/fhem/log/fhem.pid
+    attr global updateInBackground 1
+    define telnetPort telnet 7072 global
+
+
 ### Commands:
 ##### Running containers:
     docker ps
