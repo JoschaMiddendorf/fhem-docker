@@ -145,7 +145,7 @@ EXPOSE 7072 8083 8084 8085 8086 8087 8088 8089
 VOLUME /opt/fhem
 
 # Healthcheck
-HEALTHCHECK CMD /root/healthcheck.sh || exit 1
+HEALTHCHECK CMD /root/healthcheck.sh
 
 # Entrypoint
 ENTRYPOINT ["/root/StartAndInitialize.sh"]
