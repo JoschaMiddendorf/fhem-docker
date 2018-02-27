@@ -15,7 +15,9 @@ Furthermore there are some goodies, predefinitions and helpers in the initial co
 * Exposed ports: 7072 for FHEM-Tellnet and 8083-8089 for FHEM Web, Tablet UI and Webhooks.
 * Preinstalled haus-automatisierung.com theme
 * Preconfigured nice looking FHEM Web
-* Live Log Output via Docker
+* Live FHEM Log Output via Docker
+* Reliable start script for gracefull restart and shutdown handling without sending kill signals to FHEM
+* Docker Healthcheck to check FHEMs First defined FHEMWEB frontend for actual reachability
 * constantly improved and maintained
 
 ### Run:
@@ -29,9 +31,24 @@ Furthermore there are some goodies, predefinitions and helpers in the initial co
 If you are using USB devices, you will need to mapp them to the container via the run command. 
 Check for usb devices on the host with  `lsusb`.
 
-` lsusb -v | grep -E '\<(Bus|iProduct|bDeviceClass|bDeviceProtocol)' 2>/dev/null `
+    lsusb -v | grep -E '\<(Bus|iProduct|bDeviceClass|bDeviceProtocol)' 2>/dev/null
 
-and mapp them to the container by adding argument like this to the run command: `  --device=/dev/bus/usb/001/002 ` .
+and mapp them to the container by adding argument like this to the run command:
+    
+    --device=/dev/bus/usb/001/002
+
+
+### Advices:
+#### Keep the folowing lines in your config files or add them if you are migrating from an existing config.
+    attr global logfile ./log/fhem-%Y-%m.log
+
+    attr global nofork 0
+
+    attr global pidfilename /opt/fhem/log/fhem.pid
+
+    attr global updateInBackground 1
+
+    define telnetPort telnet 7072 global
 
 
 ### Commands:
