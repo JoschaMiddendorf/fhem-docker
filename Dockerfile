@@ -145,7 +145,7 @@ EXPOSE 7072 8083 8084 8085 8086 8087 8088 8089
 VOLUME /opt/fhem
 
 # Healthcheck
-HEALTHCHECK --interval=10 --timeout=10 --start-period=10 --retries=3 CMD /root/healthcheck.sh
+HEALTHCHECK --interval=10s --timeout=10s --start-period=10s --retries=3 CMD /root/healthcheck.sh
 
 # Entrypoint
 ENTRYPOINT ["/root/StartAndInitialize.sh"]
