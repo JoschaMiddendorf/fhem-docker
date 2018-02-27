@@ -15,7 +15,8 @@ Furthermore there are some goodies, predefinitions and helpers in the initial co
 * Exposed ports: 7072 for FHEM-Tellnet and 8083-8089 for FHEM Web, Tablet UI and Webhooks.
 * Preinstalled haus-automatisierung.com theme
 * Preconfigured nice looking FHEM Web
-* Live Log Output via Docker
+* Live FHEM Log Output via Docker
+* Reliable start script for gracefull restart and shutdown handling without sending kill signals to FHEM
 * constantly improved and maintained
 
 ### Run:
