@@ -43,7 +43,7 @@ function StartFHEM {
 		echo 'Waiting for FHEM process to terminate before stopping container:'
 		echo
 		grep -q "Server shutdown" <(tail -f -n1 "$(date +"$LOGFILE")")				## Wait for FHEM to shutdown
-		while ( kill -0 "$PID" ); do								## Wait for FHEM to end process
+		while ( kill -0 "$PID" 2> /dev/null ); do								## Wait for FHEM to end process
 			sleep $SLEEPINTERVAL
 		done
 		PrintNewLines
