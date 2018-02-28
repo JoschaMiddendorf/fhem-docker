@@ -68,7 +68,7 @@ function StartFHEM {
 		echo 'Performing initial update of FHEM, this may take a minute...'
 		echo
 		perl /opt/fhem/fhem.pl 7072 update > /dev/null
-		grep -q "update finished" <(tail -f -n0 "$(date +"$LOGFILE")")				## Wait for update to finish
+		grep -q "update finished" <(tail -f -n5 "$(date +"$LOGFILE")")				## Wait for update to finish
 		PrintNewLines
 		echo
 		echo 'Restarting FHEM after initial update...'
