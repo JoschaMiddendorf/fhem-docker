@@ -19,28 +19,45 @@
 ### Functions to start FHEM ###
 
 function StartFHEM {
-	LOGFILE=$(date +'/opt/fhem/log/fhem-%Y-%m.log')
+	LOGFILE=/opt/fhem/log/fhem-%Y-%m.log
 	PIDFILE=/opt/fhem/log/fhem.pid 
 	SLEEPINTERVAL=0.2
 	
 	## Function to print FHEM log in incremental steps to the docker log.
-	OLDLINES=$(wc -l < "$LOGFILE")
+	OLDLINES=$(wc -l < "$(date +"$LOGFILE")")
+	NEWLINES=$OLDLINES
+	FOUND=false
+
 	function PrintNewLines {
-		LINES=$(wc -l < "$LOGFILE")
-		tail -n $((LINES - OLDLINES)) "$LOGFILE"
-		OLDLINES=$LINES
+        	NEWLINES=$(wc -l < "$(date +"$LOGFILE")")
+        	(( OLDLINES <= NEWLINES )) && LINES=$(( NEWLINES - OLDLINES )) || LINES=$NEWLINES
+        	tail -n "$LINES" "$(date +"$LOGFILE")"
+        	test ! -z "$1" && grep -q "$1" <(tail -n "$LINES" "$(date +"$LOGFILE")") && FOUND=true || FOUND=false
+        	OLDLINES=$NEWLINES
 	}
+
+	#until $FOUND; do
+        #	sleep $SLEEPINTERVAL
+        #	PrintNewLines "Server shutdown"
+	#done
 	
 	## Docker stop sinal handler
 	function StopFHEM {
 		echo
 		echo 'SIGTERM signal received, sending "shutdown" command to FHEM!'
 		echo
+		PID=$(<"$PIDFILE")
 		cd /opt/fhem || exit 1
 		perl fhem.pl 7072 shutdown
 		echo 'Waiting for FHEM process to terminate before stopping container:'
 		echo
-		grep -q "Server shutdown" <(tail -f "$LOGFILE")							## Wait for FHEM to stop
+		until $FOUND; do					## Wait for FHEM to shutdown
+			sleep $SLEEPINTERVAL
+        		PrintNewLines "Server shutdown"
+		done
+		while ( kill -0 "$PID" 2> /dev/null ); do		## Wait for FHEM to end process
+			sleep $SLEEPINTERVAL
+		done
 		PrintNewLines
 		echo
 		echo 'FHEM process terminated, stopping container. Bye!'
@@ -54,7 +71,11 @@ function StartFHEM {
 	cd /opt/fhem || exit 1
 	trap "StopFHEM" SIGTERM
 	perl fhem.pl fhem.cfg
-	grep -q "Server started" <(tail -f "$LOGFILE")								## Wait for FHEM to start up
+	until $FOUND; do										## Wait for FHEM to start up
+		sleep $SLEEPINTERVAL
+        	PrintNewLines "Server started"
+	done
+	#grep -q "Server started" <(tail -f -n0 "$(date +"$LOGFILE")")					## Wait for FHEM to start up
 	PrintNewLines
 	
 	## Evetually update FHEM
@@ -63,13 +84,21 @@ function StartFHEM {
 		echo 'Performing initial update of FHEM, this may take a minute...'
 		echo
 		perl /opt/fhem/fhem.pl 7072 update > /dev/null
-		grep -q "update finished" <(tail -f "$LOGFILE")							## Wait for update to finish
+		until $FOUND; do									## Wait for update to finish
+			sleep $SLEEPINTERVAL
+        		PrintNewLines "update finished"
+		done
+		#grep -q "update finished" <(tail -f -n5 "$(date +"$LOGFILE")")				## Wait for update to finish
 		PrintNewLines
 		echo
 		echo 'Restarting FHEM after initial update...'
 		echo
 		perl /opt/fhem/fhem.pl 7072 "shutdown restart"
-		grep -q "Server started" <(tail -f "$LOGFILE")							## Wait for FHEM to start up
+		until $FOUND; do									## Wait for FHEM to start up
+			sleep $SLEEPINTERVAL
+        		PrintNewLines "Server started"
+		done
+		#grep -q "Server started" <(tail -f -n0 "$(date +"$LOGFILE")")				## Wait for FHEM to start up
 		PrintNewLines
 		echo
 		echo 'FHEM updated and restarted!'
