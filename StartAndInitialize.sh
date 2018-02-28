@@ -25,12 +25,21 @@ function StartFHEM {
 	
 	## Function to print FHEM log in incremental steps to the docker log.
 	OLDLINES=$(wc -l < "$(date +"$LOGFILE")")
+	NEWLINES=$OLDLINES
+	FOUND=false
+
 	function PrintNewLines {
-		NEWLINES=$(wc -l < "$(date +"$LOGFILE")")
-		(( OLDLINES <= NEWLINES )) && LINES=$(( NEWLINES - OLDLINES )) || LINES=$NEWLINES
-		tail -n "$LINES" "$(date +"$LOGFILE")"
-		OLDLINES=$NEWLINES
+        	NEWLINES=$(wc -l < "$(date +"$LOGFILE")")
+        	(( OLDLINES <= NEWLINES )) && LINES=$(( NEWLINES - OLDLINES )) || LINES=$NEWLINES
+        	tail -n "$LINES" "$(date +"$LOGFILE")"
+        	test ! -z "$1" && grep -q "$1" <(tail -n "$LINES" "$(date +"$LOGFILE")") && FOUND=true || FOUND=false
+        	OLDLINES=$NEWLINES
 	}
+
+	#until $FOUND; do
+        #	sleep $SLEEPINTERVAL
+        #	PrintNewLines "Server shutdown"
+	#done
 	
 	## Docker stop sinal handler
 	function StopFHEM {
@@ -42,8 +51,11 @@ function StartFHEM {
 		perl fhem.pl 7072 shutdown
 		echo 'Waiting for FHEM process to terminate before stopping container:'
 		echo
-		grep -q "Server shutdown" <(tail -f -n1 "$(date +"$LOGFILE")")				## Wait for FHEM to shutdown
-		while ( kill -0 "$PID" 2> /dev/null ); do								## Wait for FHEM to end process
+		until $FOUND; do					## Wait for FHEM to shutdown
+			sleep $SLEEPINTERVAL
+        		PrintNewLines "Server shutdown"
+		done
+		while ( kill -0 "$PID" 2> /dev/null ); do		## Wait for FHEM to end process
 			sleep $SLEEPINTERVAL
 		done
 		PrintNewLines
