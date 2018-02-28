@@ -98,7 +98,7 @@ function StartFHEM {
 			sleep $SLEEPINTERVAL
         		PrintNewLines "Server started"
 		done
-		grep -q "Server started" <(tail -f -n0 "$(date +"$LOGFILE")")				## Wait for FHEM to start up
+		#grep -q "Server started" <(tail -f -n0 "$(date +"$LOGFILE")")				## Wait for FHEM to start up
 		PrintNewLines
 		echo
 		echo 'FHEM updated and restarted!'
