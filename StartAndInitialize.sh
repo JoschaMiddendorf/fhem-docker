@@ -41,7 +41,7 @@ function StartFHEM {
 		perl fhem.pl 7072 shutdown
 		echo 'Waiting for FHEM process to terminate before stopping container:'
 		echo
-		grep -q "Server shutdown" <(tail -f -n0 "$(date +"$LOGFILE")")					## Wait for FHEM to stop
+		grep -q "Server shutdown" <(tail -f -n1 "$(date +"$LOGFILE")")					## Wait for FHEM to stop
 		PrintNewLines
 		echo
 		echo 'FHEM process terminated, stopping container. Bye!'
