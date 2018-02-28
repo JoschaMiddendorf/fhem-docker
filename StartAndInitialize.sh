@@ -24,7 +24,7 @@ function StartFHEM {
 	SLEEPINTERVAL=0.2
 	
 	## Function to print FHEM log in incremental steps to the docker log.
-	OLDLINES=$(wc -l < "$($LOGFILE)")
+	OLDLINES=$(wc -l < "$(date +"$LOGFILE")")
 	function PrintNewLines {
 		LINES=$(wc -l < "$(date +"$LOGFILE")")
 		tail -n $((LINES - OLDLINES)) "$(date +"$LOGFILE")"
