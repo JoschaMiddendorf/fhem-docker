@@ -26,8 +26,9 @@ function StartFHEM {
 	## Function to print FHEM log in incremental steps to the docker log.
 	OLDLINES=$(wc -l < "$(date +"$LOGFILE")")
 	function PrintNewLines {
-		LINES=$(wc -l < "$(date +"$LOGFILE")")
-		tail -n $((LINES - OLDLINES)) "$(date +"$LOGFILE")"
+		NEWLINES=$(wc -l < "$(date +"$LOGFILE")")
+		test [$OLDLINES -gt $NEWLINES] && LINES=$((NEWLINES - OLDLINES)) || LINES=$NEWLINES
+		tail -n $LINES "$(date +"$LOGFILE")"
 		OLDLINES=$LINES
 	}
 	
