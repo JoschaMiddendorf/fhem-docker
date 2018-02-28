@@ -28,7 +28,7 @@ function StartFHEM {
 	function PrintNewLines {
 		NEWLINES=$(wc -l < "$(date +"$LOGFILE")")
 		(( OLDLINES <= NEWLINES )) && LINES=$(( NEWLINES - OLDLINES )) || LINES=$NEWLINES
-		tail -n $LINES "$(date +"$LOGFILE")"
+		tail -n "$LINES" "$(date +"$LOGFILE")"
 		OLDLINES=$NEWLINES
 	}
 	
