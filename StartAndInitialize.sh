@@ -104,6 +104,7 @@ function StartFHEM {
 	## Monitor FHEM during runtime
 	while true; do
 		if [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")"; then					## FHEM isn't running
+			PrintNewLines
 			COUNTDOWN=$TIMEOUT
 			echo
 			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
