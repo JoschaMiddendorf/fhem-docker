@@ -27,7 +27,6 @@ function StartFHEM {
 	OLDLINES=$(wc -l < "$(date +"$LOGFILE")")
 	NEWLINES=$OLDLINES
 	FOUND=false
-
 	function PrintNewLines {
         	NEWLINES=$(wc -l < "$(date +"$LOGFILE")")
         	(( OLDLINES <= NEWLINES )) && LINES=$(( NEWLINES - OLDLINES )) || LINES=$NEWLINES
@@ -35,11 +34,6 @@ function StartFHEM {
         	test ! -z "$1" && grep -q "$1" <(tail -n "$LINES" "$(date +"$LOGFILE")") && FOUND=true || FOUND=false
         	OLDLINES=$NEWLINES
 	}
-
-	#until $FOUND; do
-        #	sleep $SLEEPINTERVAL
-        #	PrintNewLines "Server shutdown"
-	#done
 	
 	## Docker stop sinal handler
 	function StopFHEM {
@@ -73,7 +67,6 @@ function StartFHEM {
 		sleep $SLEEPINTERVAL
         	PrintNewLines "Server started"
 	done
-	#grep -q "Server started" <(tail -f -n0 "$(date +"$LOGFILE")")					## Wait for FHEM to start up
 	PrintNewLines
 	
 	## Evetually update FHEM
@@ -86,7 +79,6 @@ function StartFHEM {
 			sleep $SLEEPINTERVAL
         		PrintNewLines "update finished"
 		done
-		#grep -q "update finished" <(tail -f -n5 "$(date +"$LOGFILE")")				## Wait for update to finish
 		PrintNewLines
 		echo
 		echo 'Restarting FHEM after initial update...'
@@ -96,7 +88,6 @@ function StartFHEM {
 			sleep $SLEEPINTERVAL
         		PrintNewLines "Server started"
 		done
-		#grep -q "Server started" <(tail -f -n0 "$(date +"$LOGFILE")")				## Wait for FHEM to start up
 		PrintNewLines
 		echo
 		echo 'FHEM updated and restarted!'
@@ -107,8 +98,8 @@ function StartFHEM {
 
 	## Monitor FHEM during runtime
 	while true; do
-		if [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")"; then					## FHEM is running
-			COUNTDOWN=10
+		if [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")"; then					## FHEM isn't running
+			COUNTDOWN="${COUNTDOWN:-10}"
 			echo
 			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
 			while ( [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")" ) && [ $COUNTDOWN -gt 0 ]; do	## FHEM exited unexpectedly
@@ -158,14 +149,6 @@ case $1 in
 	extract)
 		echo 'Extracting config data to $2 if empty:'
 		echo 
-		## check if $PACKAGE was extracted before
-		#PACKAGE=$PACKAGEDIR/$(echo "$2" | tr '/' '-').tgz
-		#if [ -e "$PACKAGE".extracted ]; then
-		#	echo "The package $PACKAGE was already extracted before, no extraction processed!"
-		#	UPDATE=false
-		#	StartFHEM
-		#fi
-		set -x
 		# check if directory $2 is empty
 		if 	[ "$(ls -A "$2")" ]; then
 			echo "Directory $2 isn't empty, no extraction processed!"
@@ -177,13 +160,11 @@ case $1 in
 			if [ -e "$PACKAGE" ]; then
 				echo "Directory $2 is empty, extracting config now..."
 				tar -xzkf "$PACKAGE" -C / 
-				#touch "$PACKAGE".extracted
 				echo "Extracted package $PACKAGE to $2 to initialize the configuration directory."
 				UPDATE=true 
 				StartFHEM
 			fi
 		fi
-		set +x
 		;;
 	*)
 		echo 'Error: Wrong arguments provided, please provide Arg1=initialize/extract and Arg2=/abs/path/to/directory/'
