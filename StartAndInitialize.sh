@@ -165,7 +165,7 @@ case $1 in
 		#	UPDATE=false
 		#	StartFHEM
 		#fi
-		
+		set -x
 		# check if directory $2 is empty
 		if 	[ "$(ls -A "$2")" ]; then
 			echo "Directory $2 isn't empty, no extraction processed!"
@@ -181,7 +181,8 @@ case $1 in
 				UPDATE=true 
 				StartFHEM
 			fi
-		fi	
+		fi
+		set +x
 		;;
 	*)
 		echo 'Error: Wrong arguments provided, please provide Arg1=initialize/extract and Arg2=/abs/path/to/directory/'
