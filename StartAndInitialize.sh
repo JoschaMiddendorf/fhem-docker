@@ -132,6 +132,7 @@ function StartFHEM {
 
 echo 
 echo '-------------------------------------------------------------------------------------------------------------------'
+echo
 if [ -z "$2" ]; then
     echo 'Error: Not enough arguments provided, please provide Arg1=initialize/extract and Arg2=/abs/path/to/directory/'
     exit 1
