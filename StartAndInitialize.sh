@@ -20,7 +20,6 @@
 ### Functions to start FHEM ###
 
 function StartFHEM {
-	set -x
 	echo
 	echo '-------------------------------------------------------------------------------------------------------------------'
 	echo
@@ -75,7 +74,6 @@ function StartFHEM {
         	PrintNewLines "Server started"
 	done
 	PrintNewLines
-	set +x
 	## Evetually update FHEM
 	if $UPDATE; then
 		echo
