@@ -79,7 +79,7 @@ function StartFHEM {
 	PrintNewLines
 	
 	## Evetually update FHEM
-	if [ "$UPDATE" -eq 1 ]; then
+	if $UPDATE; then
 		echo
 		echo 'Performing initial update of FHEM, this may take a minute...'
 		echo
@@ -164,14 +164,14 @@ case $1 in
 		PACKAGE=$PACKAGEDIR/$(echo "$2" | tr '/' '-').tgz
 		if [ -e "$PACKAGE".extracted ]; then
 			echo "The package $PACKAGE was already extracted before, no extraction processed!"
-			UPDATE=0
+			UPDATE=false
 			StartFHEM
 		fi
 		
 		# check if directory $2 is empty
 		if 	[ "$(ls -A "$2")" ]; then
 			echo "Directory $2 isn't empty, no extraction processed!"
-			UPDATE=0
+			UPDATE=false
 			StartFHEM
 		else 
 			# check if $PACKAGE exists
@@ -179,7 +179,7 @@ case $1 in
 				tar -xzkf "$PACKAGE" -C / 
 				touch "$PACKAGE".extracted
 				echo "Extracted package $PACKAGE to $2 to initialize the configuration directory."
-				UPDATE=1 
+				UPDATE=true 
 				StartFHEM
 			fi
 		fi	
