@@ -52,8 +52,8 @@ ___
     attr global pidfilename /opt/fhem/log/fhem.pid
     attr global updateInBackground 1
     define telnetPort telnet 7072 global
-    
-    Make shure do always use absolout paths in your fhem.cfg beginning with /opt/fhem/ not with ./ !
+#### And furthermore    
+Make shure do always use absolout paths in your fhem.cfg beginning with /opt/fhem/ not with ./ !
 ___
 ### Commands:
 ##### Running containers:
