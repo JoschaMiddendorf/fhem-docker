@@ -15,17 +15,24 @@ Furthermore there are some goodies, predefinitions and helpers in the initial co
 * Exposed ports: 7072 for FHEM-Tellnet and 8083-8089 for FHEM Web, Tablet UI and Webhooks.
 * Preinstalled haus-automatisierung.com theme
 * Preconfigured nice looking FHEM Web
-* Live FHEM Log Output via Docker
+* Live FHEM log output via docker
 * Reliable start script for gracefull restart and shutdown handling without sending kill signals to FHEM
-* Docker Healthcheck to check FHEMs First defined FHEMWEB frontend for actual reachability
-* constantly improved and maintained
+* Docker Healthcheck to check FHEMs first defined FHEMWEB frontend for actual reachability
+* Constantly improved and maintained 
+* Feature requests and feedback is highly appreciated
+
+#### If you appreciate my work and if you use and like these container, consider to make a little donation.
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=L98P3QMZFDHCN)
+
 
 ### Run:
-    docker run -d --name FHEM --cap-add SYS_ADMIN -p 7072:7072 -p 8083:8083 -p 8084:8084 -p 8085:8085 -p 8086:8086 -p 8087:8087 -p 8088:8088 -p 8089:8089 diggewuff/fhem-docker
+    docker run -d --name FHEM -p 7072:7072 -p 8083:8083 -p 8084:8084 -p 8085:8085 -p 8086:8086 -p 8087:8087 -p 8088:8088 -p 8089:8089 diggewuff/fhem-docker
+
 
 ### Run with mapped volume on host:
 
-    docker run -d --name fhem --cap-add SYS_ADMIN -v /my/host/directory:/opt/fhem -p 7072:7072 -p 8083:8083 -p 8084:8084 -p 8085:8085 -p 8086:8086 -p 8087:8087 -p 8088:8088 -p 8089:8089 diggewuff/fhem-docker
+    docker run -d --name FHEM -v /my/host/directory:/opt/fhem -p 7072:7072 -p 8083:8083 -p 8084:8084 -p 8085:8085 -p 8086:8086 -p 8087:8087 -p 8088:8088 -p 8089:8089 diggewuff/fhem-docker
 
 
 If you are using USB devices, you will need to mapp them to the container via the run command. 
@@ -37,25 +44,22 @@ and mapp them to the container by adding argument like this to the run command:
     
     --device=/dev/bus/usb/001/002
 
-
 ### Advices:
 #### Keep the folowing lines in your config files or add them if you are migrating from an existing config.
+    
     attr global logfile ./log/fhem-%Y-%m.log
-
     attr global nofork 0
-
     attr global pidfilename /opt/fhem/log/fhem.pid
-
     attr global updateInBackground 1
-
     define telnetPort telnet 7072 global
-
 
 ### Commands:
 ##### Running containers:
     docker ps
 ##### Attach shell to container with:
-    docker exec -it ContainerID /bin/bash
+    docker exec -it FHEM /bin/bash
+##### View log of container with:
+    docker logs -f FHEM
     
 #### GUI FHEM:
     http://ipaddress:8083
