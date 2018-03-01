@@ -18,7 +18,6 @@ Furthermore there are some goodies, predefinitions and helpers in the initial co
 * Live FHEM log output via docker
 * Reliable start script for gracefull restart and shutdown handling without sending kill signals to FHEM
 * Docker Healthcheck to check FHEMs first defined FHEMWEB frontend for actual reachability
-
 * Constantly improved and maintained 
 * Feature requests and feedback is highly appreciated
 
