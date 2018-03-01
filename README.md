@@ -9,7 +9,7 @@ Furthermore there are some goodies, predefinitions and helpers in the initial co
 * Manuals: https://haus-automatisierung.com/
 * FHEM Website: http://www.fhem.de
 * FHEM Forum: https://forum.fhem.de
-
+___
 ### Features
 * mapable and self initialising volume /opt/fhem
 * Exposed ports: 7072 for FHEM-Tellnet and 8083-8089 for FHEM Web, Tablet UI and Webhooks.
@@ -20,22 +20,19 @@ Furthermore there are some goodies, predefinitions and helpers in the initial co
 * Docker Healthcheck to check FHEMs first defined FHEMWEB frontend for actual reachability
 * Constantly improved and maintained 
 * Feature requests and feedback is highly appreciated
-
+___
 #### If you appreciate my work and if you use and like these container, consider to make a little donation.
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=L98P3QMZFDHCN)
-
-
+___
 ### Run:
     docker run -d --name FHEM -p 7072:7072 -p 8083:8083 -p 8084:8084 -p 8085:8085 -p 8086:8086 -p 8087:8087 -p 8088:8088 -p 8089:8089 diggewuff/fhem-docker
-
 
 ### Run with mapped volume on host:
 
     docker run -d --name FHEM -v /my/host/directory:/opt/fhem -p 7072:7072 -p 8083:8083 -p 8084:8084 -p 8085:8085 -p 8086:8086 -p 8087:8087 -p 8088:8088 -p 8089:8089 diggewuff/fhem-docker
 
-
-If you are using USB devices, you will need to mapp them to the container via the run command. 
+#### If you are using USB devices, you will need to mapp them to the container via the run command. 
 Check for usb devices on the host with  `lsusb`.
 
     lsusb -v | grep -E '\<(Bus|iProduct|bDeviceClass|bDeviceProtocol)' 2>/dev/null
@@ -43,7 +40,7 @@ Check for usb devices on the host with  `lsusb`.
 and mapp them to the container by adding argument like this to the run command:
     
     --device=/dev/bus/usb/001/002
-
+___
 ### Advices:
 #### Keep the folowing lines in your config files or add them if you are migrating from an existing config.
     
@@ -52,7 +49,7 @@ and mapp them to the container by adding argument like this to the run command:
     attr global pidfilename /opt/fhem/log/fhem.pid
     attr global updateInBackground 1
     define telnetPort telnet 7072 global
-
+___
 ### Commands:
 ##### Running containers:
     docker ps
