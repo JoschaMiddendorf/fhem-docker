@@ -1,4 +1,18 @@
 #!/bin/bash
+##################################################################################################
+##
+##	Healthcheck script for fhem-docker
+##	Copyright (c) 2018 Joscha Middendorf
+##
+##	This script scanns fhem.cfg for the first FHEMWEB device and determines
+##      it's PORT and NAME, afterwards it determines if the HTTPS attribute for the 
+##      device is set to 1.
+##
+##      Now that it knows on witch PORT FHEM is running and if FHEM runs on HTTP or HTTPS 
+##      it starts a corisponding curl request via localhost and reports the reachability 
+##      via exit code 0/1 to set docker health status to healthy/unhealthy.
+##
+##################################################################################################
 
 CONFIG_FILE=/opt/fhem/fhem.cfg
 if [ -f "${CONFIG_FILE}" ]; then
