@@ -35,8 +35,9 @@ ___
     docker run -d --name FHEM -v /my/host/directory:/opt/fhem -p 7072:7072 -p 8083:8083 -p 8084:8084 -p 8085:8085 -p 8086:8086 -p 8087:8087 -p 8088:8088 -p 8089:8089 diggewuff/fhem-docker
 
 
-If you are using USB devices, you will need to mapp them to the container via the run command. 
-Check for usb devices on the host with  `lsusb`.
+#### If you are using USB devices, you will need to mapp them to the container via the run command. 
+
+Check for usb devices on the host with  `lsusb`:
 
     lsusb -v | grep -E '\<(Bus|iProduct|bDeviceClass|bDeviceProtocol)' 2>/dev/null
 
