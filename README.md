@@ -1,5 +1,7 @@
-## Docker Container for FHEM House-Automation-System - Full install with all dependencies
-This image of FHEM is debian jessie based and runns out of the box. It has several perl modules installed. However if you are missing any modules packages or features don't hesitate to ask for it by opening an isuue on github https://github.com/JoschaMiddendorf/fhem-docker/issues/new. 
+# Docker Container for FHEM House-Automation-System
+## Full install with all dependencies
+This image of FHEM is debian jessie based and runns out of the box. It has several perl modules installed. However if you are missing any modules packages or features don't hesitate to ask for it by opening an isuue on github.
+https://github.com/JoschaMiddendorf/fhem-docker/issues/new
 
 You can make your entire configuration persitent across updates and restarts by mapping the volume /opt/fhem to a directory of your choise. 
 If the maped directory is empty prior to the first atempt to run the container, initial data will be extracted from the install.
