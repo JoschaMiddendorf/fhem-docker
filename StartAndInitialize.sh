@@ -161,12 +161,12 @@ case $1 in
 		echo 'Extracting config data to /opt/fhem/ if empty:'
 		echo 
 		## check if $PACKAGE was extracted before
-		PACKAGE=$PACKAGEDIR/$(echo "$2" | tr '/' '-').tgz
-		if [ -e "$PACKAGE".extracted ]; then
-			echo "The package $PACKAGE was already extracted before, no extraction processed!"
-			UPDATE=false
-			StartFHEM
-		fi
+		#PACKAGE=$PACKAGEDIR/$(echo "$2" | tr '/' '-').tgz
+		#if [ -e "$PACKAGE".extracted ]; then
+		#	echo "The package $PACKAGE was already extracted before, no extraction processed!"
+		#	UPDATE=false
+		#	StartFHEM
+		#fi
 		
 		# check if directory $2 is empty
 		if 	[ "$(ls -A "$2")" ]; then
@@ -176,8 +176,9 @@ case $1 in
 		else 
 			# check if $PACKAGE exists
 			if [ -e "$PACKAGE" ]; then
+				echo "Directory $2 is empty, extracting config now..."
 				tar -xzkf "$PACKAGE" -C / 
-				touch "$PACKAGE".extracted
+				#touch "$PACKAGE".extracted
 				echo "Extracted package $PACKAGE to $2 to initialize the configuration directory."
 				UPDATE=true 
 				StartFHEM
