@@ -146,7 +146,7 @@ test -e $PACKAGEDIR || mkdir -p $PACKAGEDIR
 
 case $1 in
 	initialize)
-		echo 'Creating package of /opt/fhem/:'
+		echo 'Creating package of $2:'
 		echo 
 		## check if $2 is a extsting directory
 		if  [ -d  "$2" ]; then  
@@ -156,7 +156,7 @@ case $1 in
 		fi
 		;;
 	extract)
-		echo 'Extracting config data to /opt/fhem/ if empty:'
+		echo 'Extracting config data to $2 if empty:'
 		echo 
 		## check if $PACKAGE was extracted before
 		#PACKAGE=$PACKAGEDIR/$(echo "$2" | tr '/' '-').tgz
@@ -173,6 +173,7 @@ case $1 in
 			StartFHEM
 		else 
 			# check if $PACKAGE exists
+			PACKAGE=$PACKAGEDIR/$(echo "$2" | tr '/' '-').tgz
 			if [ -e "$PACKAGE" ]; then
 				echo "Directory $2 is empty, extracting config now..."
 				tar -xzkf "$PACKAGE" -C / 
