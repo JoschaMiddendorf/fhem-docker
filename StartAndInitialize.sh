@@ -30,7 +30,7 @@ function StartFHEM {
 	echo "TIMEOUT = $TIMEOUT"
 	
 	## Function to print FHEM log in incremental steps to the docker log.
-	test -f $LOGFILE && OLDLINES=$(wc -l < "$(date +"$LOGFILE")") || OLDLINES=0
+	test -f "$(date +"$LOGFILE")" && OLDLINES=$(wc -l < "$(date +"$LOGFILE")") || OLDLINES=0
 	NEWLINES=$OLDLINES
 	FOUND=false
 	function PrintNewLines {
