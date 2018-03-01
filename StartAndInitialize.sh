@@ -47,8 +47,7 @@ function StartFHEM {
 		echo 'SIGTERM signal received, sending "shutdown" command to FHEM!'
 		echo
 		PID=$(<"$PIDFILE")
-		cd /opt/fhem || exit 1
-		perl fhem.pl 7072 shutdown
+		perl /opt/fhem/fhem.pl 7072 shutdown
 		echo 'Waiting for FHEM process to terminate before stopping container:'
 		echo
 		until $FOUND; do					## Wait for FHEM to shutdown
@@ -68,9 +67,8 @@ function StartFHEM {
 	echo
 	echo 'Starting FHEM:'
 	echo
-	cd /opt/fhem || exit 1
 	trap "StopFHEM" SIGTERM
-	perl fhem.pl fhem.cfg
+	perl /opt/fhem/fhem.pl /opt/fhem/fhem.cfg
 	until $FOUND; do										## Wait for FHEM to start up
 		sleep $SLEEPINTERVAL
         	PrintNewLines "Server started"
