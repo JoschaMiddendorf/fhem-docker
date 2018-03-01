@@ -4,13 +4,14 @@
 ##	Start and intitialization script for fhem-docker
 ##	Copyright (c) 2018 Joscha Middendorf
 ##
-##	Before mounting a volume to the container, this script comresses the content 
+##	Before mounting a volume to the container, this script compresses the content 
 ##	of a provided configuration directory to /root/_config.
 ##	usage:	./StartAndInitialize.sh Arg1=initialize Arg2=/abs/path/to/directory/
 ##
 ##	After mounting a volume to the container, this script extracts the content 
 ##	of the previously compressed configuration directory back to a provided directory,
 ##	if the directory is empty.
+##	Starts FHEM and monitors it during runtime.
 ##	usage:	./StartAndInitialize.sh Arg1=extract Arg2=/abs/path/to/directory/
 ##
 ##################################################################################################
@@ -19,15 +20,19 @@
 ### Functions to start FHEM ###
 
 function StartFHEM {
+	echo
+	echo '-------------------------------------------------------------------------------------------------------------------'
+	echo
 	LOGFILE=/opt/fhem/log/fhem-%Y-%m.log
 	PIDFILE=/opt/fhem/log/fhem.pid 
 	SLEEPINTERVAL=0.2
+	TIMEOUT="${TIMEOUT:-10}"
+	echo "TIMEOUT = $TIMEOUT"
 	
 	## Function to print FHEM log in incremental steps to the docker log.
-	OLDLINES=$(wc -l < "$(date +"$LOGFILE")")
+	test -f "$(date +"$LOGFILE")" && OLDLINES=$(wc -l < "$(date +"$LOGFILE")") || OLDLINES=0
 	NEWLINES=$OLDLINES
 	FOUND=false
-
 	function PrintNewLines {
         	NEWLINES=$(wc -l < "$(date +"$LOGFILE")")
         	(( OLDLINES <= NEWLINES )) && LINES=$(( NEWLINES - OLDLINES )) || LINES=$NEWLINES
@@ -47,8 +52,7 @@ function StartFHEM {
 		echo 'SIGTERM signal received, sending "shutdown" command to FHEM!'
 		echo
 		PID=$(<"$PIDFILE")
-		cd /opt/fhem || exit 1
-		perl fhem.pl 7072 shutdown
+		perl /opt/fhem/fhem.pl 7072 shutdown
 		echo 'Waiting for FHEM process to terminate before stopping container:'
 		echo
 		until $FOUND; do					## Wait for FHEM to shutdown
@@ -68,18 +72,15 @@ function StartFHEM {
 	echo
 	echo 'Starting FHEM:'
 	echo
-	cd /opt/fhem || exit 1
 	trap "StopFHEM" SIGTERM
-	perl fhem.pl fhem.cfg
+	perl /opt/fhem/fhem.pl /opt/fhem/fhem.cfg
 	until $FOUND; do										## Wait for FHEM to start up
 		sleep $SLEEPINTERVAL
         	PrintNewLines "Server started"
 	done
-	#grep -q "Server started" <(tail -f -n0 "$(date +"$LOGFILE")")					## Wait for FHEM to start up
 	PrintNewLines
-	
 	## Evetually update FHEM
-	if [ "$UPDATE" -eq 1 ]; then
+	if $UPDATE; then
 		echo
 		echo 'Performing initial update of FHEM, this may take a minute...'
 		echo
@@ -88,7 +89,6 @@ function StartFHEM {
 			sleep $SLEEPINTERVAL
         		PrintNewLines "update finished"
 		done
-		#grep -q "update finished" <(tail -f -n5 "$(date +"$LOGFILE")")				## Wait for update to finish
 		PrintNewLines
 		echo
 		echo 'Restarting FHEM after initial update...'
@@ -98,7 +98,6 @@ function StartFHEM {
 			sleep $SLEEPINTERVAL
         		PrintNewLines "Server started"
 		done
-		#grep -q "Server started" <(tail -f -n0 "$(date +"$LOGFILE")")				## Wait for FHEM to start up
 		PrintNewLines
 		echo
 		echo 'FHEM updated and restarted!'
@@ -109,11 +108,12 @@ function StartFHEM {
 
 	## Monitor FHEM during runtime
 	while true; do
-		if [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")"; then					## FHEM is running
-			COUNTDOWN=10
+		if [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")"; then					## FHEM isn't running
+			PrintNewLines
+			COUNTDOWN=$TIMEOUT
 			echo
 			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
-			while ( [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")" ) && [ $COUNTDOWN -gt 0 ]; do	## FHEM exited unexpectedly
+			while ( [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")" ) && (( COUNTDOWN > 0 )); do	## FHEM exited unexpectedly
 				echo "waiting - $COUNTDOWN"
 				(( COUNTDOWN-- ))
 				sleep 1
@@ -137,7 +137,8 @@ function StartFHEM {
 ### Start of Script ###
 
 echo 
-echo '-------------------------------------------------------------------------------------------------------------------------'
+echo '-------------------------------------------------------------------------------------------------------------------'
+echo
 if [ -z "$2" ]; then
     echo 'Error: Not enough arguments provided, please provide Arg1=initialize/extract and Arg2=/abs/path/to/directory/'
     exit 1
@@ -148,7 +149,7 @@ test -e $PACKAGEDIR || mkdir -p $PACKAGEDIR
 
 case $1 in
 	initialize)
-		echo 'Creating package of /opt/fhem/:'
+		echo "Creating package of $2:"
 		echo 
 		## check if $2 is a extsting directory
 		if  [ -d  "$2" ]; then  
@@ -158,31 +159,25 @@ case $1 in
 		fi
 		;;
 	extract)
-		echo 'Extracting config data to /opt/fhem/ if empty:'
+		echo "Extracting config data to $2 if empty:"
 		echo 
-		## check if $PACKAGE was extracted before
-		PACKAGE=$PACKAGEDIR/$(echo "$2" | tr '/' '-').tgz
-		if [ -e "$PACKAGE".extracted ]; then
-			echo "The package $PACKAGE was already extracted before, no extraction processed!"
-			UPDATE=0
-			StartFHEM
-		fi
-		
 		# check if directory $2 is empty
 		if 	[ "$(ls -A "$2")" ]; then
 			echo "Directory $2 isn't empty, no extraction processed!"
-			UPDATE=0
+			UPDATE=false
 			StartFHEM
 		else 
 			# check if $PACKAGE exists
+			PACKAGE=$PACKAGEDIR/$(echo "$2" | tr '/' '-').tgz
 			if [ -e "$PACKAGE" ]; then
+				echo "Directory $2 is empty, extracting config now..."
 				tar -xzkf "$PACKAGE" -C / 
-				touch "$PACKAGE".extracted
+				echo
 				echo "Extracted package $PACKAGE to $2 to initialize the configuration directory."
-				UPDATE=1 
+				UPDATE=true 
 				StartFHEM
 			fi
-		fi	
+		fi
 		;;
 	*)
 		echo 'Error: Wrong arguments provided, please provide Arg1=initialize/extract and Arg2=/abs/path/to/directory/'
