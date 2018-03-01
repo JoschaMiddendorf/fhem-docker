@@ -4,13 +4,14 @@
 ##	Start and intitialization script for fhem-docker
 ##	Copyright (c) 2018 Joscha Middendorf
 ##
-##	Before mounting a volume to the container, this script comresses the content 
+##	Before mounting a volume to the container, this script compresses the content 
 ##	of a provided configuration directory to /root/_config.
 ##	usage:	./StartAndInitialize.sh Arg1=initialize Arg2=/abs/path/to/directory/
 ##
 ##	After mounting a volume to the container, this script extracts the content 
 ##	of the previously compressed configuration directory back to a provided directory,
 ##	if the directory is empty.
+##	Starts FHEM and monitors it during runtime.
 ##	usage:	./StartAndInitialize.sh Arg1=extract Arg2=/abs/path/to/directory/
 ##
 ##################################################################################################
