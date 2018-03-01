@@ -22,6 +22,9 @@ function StartFHEM {
 	LOGFILE=/opt/fhem/log/fhem-%Y-%m.log
 	PIDFILE=/opt/fhem/log/fhem.pid 
 	SLEEPINTERVAL=0.2
+	TIMEOUT="${TIMEOUT:-10}"
+	echo "TIMEOUT=$TIMEOUT"
+	echo '-------------------------------------------------------------------------------------------------------------------'
 	
 	## Function to print FHEM log in incremental steps to the docker log.
 	OLDLINES=$(wc -l < "$(date +"$LOGFILE")")
@@ -99,10 +102,10 @@ function StartFHEM {
 	## Monitor FHEM during runtime
 	while true; do
 		if [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")"; then					## FHEM isn't running
-			COUNTDOWN="${TIMEOUT:-10}"
+			COUNTDOWN=$TIMEOUT
 			echo
 			echo "FHEM process terminated unexpectedly, waiting for $COUNTDOWN seconds before stopping container..."
-			while ( [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")" ) && [ $COUNTDOWN -gt 0 ]; do	## FHEM exited unexpectedly
+			while ( [ ! -f $PIDFILE ] || ! kill -0 "$(<"$PIDFILE")" ) && (( COUNTDOWN > 0 )); do	## FHEM exited unexpectedly
 				echo "waiting - $COUNTDOWN"
 				(( COUNTDOWN-- ))
 				sleep 1
@@ -126,7 +129,7 @@ function StartFHEM {
 ### Start of Script ###
 
 echo 
-echo '-------------------------------------------------------------------------------------------------------------------------'
+echo '-------------------------------------------------------------------------------------------------------------------'
 if [ -z "$2" ]; then
     echo 'Error: Not enough arguments provided, please provide Arg1=initialize/extract and Arg2=/abs/path/to/directory/'
     exit 1
@@ -137,7 +140,7 @@ test -e $PACKAGEDIR || mkdir -p $PACKAGEDIR
 
 case $1 in
 	initialize)
-		echo 'Creating package of $2:'
+		echo "Creating package of $2:"
 		echo 
 		## check if $2 is a extsting directory
 		if  [ -d  "$2" ]; then  
@@ -147,7 +150,7 @@ case $1 in
 		fi
 		;;
 	extract)
-		echo 'Extracting config data to $2 if empty:'
+		echo "Extracting config data to $2 if empty:"
 		echo 
 		# check if directory $2 is empty
 		if 	[ "$(ls -A "$2")" ]; then
