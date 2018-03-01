@@ -49,7 +49,7 @@ and mapp them to the container by adding argument like this to the run command:
 
 Timeout interval, in seconds, before container stopps when FHEM process terminates unexpectedly.
 
-    -e COUNTDOWN=10
+    -e TIMEOUT=10
 ___
 ### Advices:
 #### Keep the folowing lines in your config files or add them if you are migrating from an existing config.
