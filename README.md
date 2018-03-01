@@ -43,8 +43,11 @@ Check for usb devices on the host with  `lsusb`.
 and mapp them to the container by adding argument like this to the run command:
     
     --device=/dev/bus/usb/001/002
+
 #### Furtermore you can de3fine the following environmental variables to customize the behavior of the container
+
 Timeout interval, in seconds, before container stopps when FHEM process terminates unexpectedly.
+
     -e COUNTDOWN=10
 ___
 ### Advices:
