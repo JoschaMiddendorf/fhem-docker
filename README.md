@@ -28,38 +28,47 @@ ___
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=L98P3QMZFDHCN)
 ___
 ### Run:
-    docker run -d --name FHEM -p 7072:7072 -p 8083:8083 -p 8084:8084 -p 8085:8085 -p 8086:8086 -p 8087:8087 -p 8088:8088 -p 8089:8089 diggewuff/fhem-docker
+    docker run -d --name fhem-docker -p 7072:7072 -p 8083:8083 -p 8084:8084 -p 8085:8085 -p 8086:8086 -p 8087:8087 -p 8088:8088 -p 8089:8089 diggewuff/fhem-docker
 ___
 ### Run with mapped volume on host:
 
-    docker run -d --name FHEM -v /my/host/directory:/opt/fhem -p 7072:7072 -p 8083:8083 -p 8084:8084 -p 8085:8085 -p 8086:8086 -p 8087:8087 -p 8088:8088 -p 8089:8089 diggewuff/fhem-docker
+    docker run -d --name fhem-docker -v /my/host/directory:/opt/fhem -p 7072:7072 -p 8083:8083 -p 8084:8084 -p 8085:8085 -p 8086:8086 -p 8087:8087 -p 8088:8088 -p 8089:8089 diggewuff/fhem-docker
 
+#### If you are using USB devices, you will need to mapp them to the container via the run command. 
 
-If you are using USB devices, you will need to mapp them to the container via the run command. 
-Check for usb devices on the host with  `lsusb`.
+Check for usb devices on the host with  `lsusb`:
 
     lsusb -v | grep -E '\<(Bus|iProduct|bDeviceClass|bDeviceProtocol)' 2>/dev/null
 
 and mapp them to the container by adding argument like this to the run command:
     
     --device=/dev/bus/usb/001/002
+
+#### Furtermore you can define the following environmental variables to customize the behavior of the container:
+
+Timeout interval, in seconds, before container stopps when FHEM process terminates unexpectedly.
+
+    -e TIMEOUT=10
 ___
 ### Advices:
 #### Keep the folowing lines in your config files or add them if you are migrating from an existing config.
-    
-    attr global logfile ./log/fhem-%Y-%m.log
+
+    attr global logfile /opt/fhem//log/fhem-%Y-%m.log
+    attr global modpath /opt/fhem/
     attr global nofork 0
     attr global pidfilename /opt/fhem/log/fhem.pid
     attr global updateInBackground 1
     define telnetPort telnet 7072 global
+#### And furthermore    
+Make shure do always use absolout paths in your fhem.cfg beginning with /opt/fhem/ not with ./ !
 ___
 ### Commands:
 ##### Running containers:
     docker ps
 ##### Attach shell to container with:
-    docker exec -it FHEM /bin/bash
+    docker exec -it fhem-docker /bin/bash
 ##### View log of container with:
-    docker logs -f FHEM
+    docker logs -f fhem-docker
     
 #### GUI FHEM:
     http://ipaddress:8083
