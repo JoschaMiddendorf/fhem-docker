@@ -47,7 +47,8 @@ ___
 ### Advices:
 #### Keep the folowing lines in your config files or add them if you are migrating from an existing config.
     
-    attr global logfile ./log/fhem-%Y-%m.log
+    attr global logfile /opt/fhem//log/fhem-%Y-%m.log
+    attr global modpath /opt/fhem/
     attr global nofork 0
     attr global pidfilename /opt/fhem/log/fhem.pid
     attr global updateInBackground 1
