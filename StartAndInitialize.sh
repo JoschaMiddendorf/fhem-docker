@@ -29,7 +29,7 @@ function StartFHEM {
 	echo "TIMEOUT=$TIMEOUT"
 	
 	## Function to print FHEM log in incremental steps to the docker log.
-	OLDLINES=$(wc -l < "$(date +"$LOGFILE")")
+	test -f $LOGFILE && OLDLINES=$(wc -l < "$(date +"$LOGFILE")") || OLDLINES=0
 	NEWLINES=$OLDLINES
 	FOUND=false
 	function PrintNewLines {
@@ -165,6 +165,7 @@ case $1 in
 			if [ -e "$PACKAGE" ]; then
 				echo "Directory $2 is empty, extracting config now..."
 				tar -xzkf "$PACKAGE" -C / 
+				echo
 				echo "Extracted package $PACKAGE to $2 to initialize the configuration directory."
 				UPDATE=true 
 				StartFHEM
