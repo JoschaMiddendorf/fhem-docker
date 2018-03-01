@@ -53,7 +53,7 @@ Timeout interval, in seconds, before container stopps when FHEM process terminat
 ___
 ### Advices:
 #### Keep the folowing lines in your config files or add them if you are migrating from an existing config.
-    
+
     attr global logfile /opt/fhem//log/fhem-%Y-%m.log
     attr global modpath /opt/fhem/
     attr global nofork 0

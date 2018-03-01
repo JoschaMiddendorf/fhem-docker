@@ -40,6 +40,11 @@ function StartFHEM {
         	test ! -z "$1" && grep -q "$1" <(tail -n "$LINES" "$(date +"$LOGFILE")") && FOUND=true || FOUND=false
         	OLDLINES=$NEWLINES
 	}
+
+	#until $FOUND; do
+        #	sleep $SLEEPINTERVAL
+        #	PrintNewLines "Server shutdown"
+	#done
 	
 	## Docker stop sinal handler
 	function StopFHEM {
