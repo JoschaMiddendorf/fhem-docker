@@ -10,8 +10,10 @@ ENV TERM xterm
 ENV TZ Europe/Berlin
 
 # Install dependencies
-RUN apt-get update && apt-get upgrade -y --force-yes && apt-get install -y --force-yes --no-install-recommends apt-utils
-RUN apt-get -y --force-yes install \
+RUN apt-get update \
+  && apt-get upgrade -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
+  && apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages --no-install-recommends apt-utils
+RUN apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
   apt-transport-https \
   at \
   build-essential \
@@ -45,14 +47,13 @@ RUN apt-get -y --force-yes install \
   vim \
   wget
 
-  #&& apt-get install -y --force-yes --no-install-recommends apt-utils \
   #bluetooth \
   #bluez-hcidump \
   #bluez \
   #blueman 
 
 # Install perl packages
-RUN apt-get -y --force-yes install \
+RUN apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages \
   libalgorithm-merge-perl \
   libauthen-oath-perl \
   libavahi-compat-libdnssd-dev \
@@ -109,7 +110,9 @@ RUN apt-get -y --force-yes install \
   libxml-simple-perl
 
 # Clean up APT when done.
-RUN apt-get clean \
+RUN apt-get autoremove \
+  &&apt-get clean \
+  &&apt-get autoclean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Configure Timezone
