@@ -111,8 +111,8 @@ RUN apt-get install -y --allow-downgrades --allow-remove-essential --allow-chang
 
 # Clean up APT when done.
 RUN apt-get autoremove \
-  &&apt-get clean \
-  &&apt-get autoclean \
+  && apt-get clean \
+  && apt-get autoclean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Configure Timezone
@@ -120,7 +120,7 @@ RUN echo ${TZ} > /etc/timezone && dpkg-reconfigure tzdata
 
 # Customize console
 RUN echo "alias ll='ls -lah --color=auto'" >> /root/.bashrc \
-  &&echo "screenfetch" >> /root/.bashrc
+  && echo "screenfetch" >> /root/.bashrc
 
 # Install Speedtest-CLI 
 RUN cd /usr/local/bin \
