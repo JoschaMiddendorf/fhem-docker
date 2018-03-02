@@ -27,7 +27,12 @@ function StartFHEM {
 	PIDFILE=/opt/fhem/log/fhem.pid 
 	SLEEPINTERVAL=0.2
 	TIMEOUT="${TIMEOUT:-10}"
+	echo "FHEM_VERSION = $FHEM_VERSION"
+	echo "TZ = $TZ"
 	echo "TIMEOUT = $TIMEOUT"
+	echo
+	echo '-------------------------------------------------------------------------------------------------------------------'
+	echo
 	
 	## Function to print FHEM log in incremental steps to the docker log.
 	test -f "$(date +"$LOGFILE")" && OLDLINES=$(wc -l < "$(date +"$LOGFILE")") || OLDLINES=0
