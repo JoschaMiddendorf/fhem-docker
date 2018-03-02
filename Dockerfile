@@ -1,6 +1,6 @@
 # Copyright (c) 2018 Joscha Middendorf
 
-FROM debian:stretch
+FROM debian:jessie
 
 MAINTAINER Joscha Middendorf <joscha.middendorf@me.com>
 
@@ -10,8 +10,10 @@ ENV TERM xterm
 ENV TZ Europe/Berlin
 
 # Install dependencies
-RUN apt-get update && apt-get upgrade -y --force-yes && apt-get install -y --force-yes --no-install-recommends apt-utils
-RUN apt-get -y --force-yes install \
+RUN apt-get update \
+  && apt-get upgrade -y --force-yes \
+  && apt-get install -y --force-yes --no-install-recommends apt-utils
+RUN install apt-get -y --force-yes \
   apt-transport-https \
   at \
   build-essential \
@@ -52,7 +54,7 @@ RUN apt-get -y --force-yes install \
   #blueman 
 
 # Install perl packages
-RUN apt-get -y --force-yes install \
+RUN apt-get install -y --force-yes \
   libalgorithm-merge-perl \
   libauthen-oath-perl \
   libavahi-compat-libdnssd-dev \
@@ -108,7 +110,7 @@ RUN apt-get -y --force-yes install \
   libwww-perl \
   libxml-simple-perl
 
-# Clean up APT when done.
+# Clean up APT when done.                ###################################
 RUN apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -117,7 +119,7 @@ RUN echo ${TZ} > /etc/timezone && dpkg-reconfigure tzdata
 
 # Customize console
 RUN echo "alias ll='ls -lah --color=auto'" >> /root/.bashrc \
-  &&echo "screenfetch" >> /root/.bashrc
+  && echo "screenfetch" >> /root/.bashrc
 
 # Install Speedtest-CLI 
 RUN cd /usr/local/bin \
