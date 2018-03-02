@@ -13,7 +13,7 @@ ENV TZ Europe/Berlin
 RUN apt-get update \
   && apt-get upgrade -y --force-yes \
   && apt-get install -y --force-yes --no-install-recommends apt-utils
-RUN install apt-get -y --force-yes \
+RUN apt-get install -y --force-yes \
   apt-transport-https \
   at \
   build-essential \
