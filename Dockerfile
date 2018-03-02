@@ -7,6 +7,7 @@ MAINTAINER Joscha Middendorf <joscha.middendorf@me.com>
 ENV FHEM_VERSION 5.8
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
+ENV TZ Europe/Berlin
 
 # Install dependencies
 RUN apt-get update && apt-get upgrade -y --force-yes && apt-get install -y --force-yes --no-install-recommends apt-utils
@@ -108,10 +109,11 @@ RUN apt-get -y --force-yes install \
   libxml-simple-perl
 
 # Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Configure Timezone
-RUN echo Europe/Berlin > /etc/timezone && dpkg-reconfigure tzdata
+RUN echo ${TZ} > /etc/timezone && dpkg-reconfigure tzdata
 
 # Customize console
 RUN echo "alias ll='ls -lah --color=auto'" >> /root/.bashrc \
@@ -123,10 +125,9 @@ RUN cd /usr/local/bin \
   && chmod +x speedtest-cli
 
 # Install FHEM (FHEM_VERSION)
-RUN wget https://fhem.de/fhem-${FHEM_VERSION}.deb && dpkg -i fhem-${FHEM_VERSION}.deb
-RUN rm fhem-${FHEM_VERSION}.deb
-RUN userdel fhem
-
+RUN wget https://fhem.de/fhem-${FHEM_VERSION}.deb && dpkg -i fhem-${FHEM_VERSION}.deb \
+  && rm fhem-${FHEM_VERSION}.deb \
+  && userdel fhem
 
 # add basic configation and scripts
 ADD fhem.cfg /opt/fhem/
