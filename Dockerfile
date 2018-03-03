@@ -16,6 +16,7 @@ RUN apt-get update \
 RUN apt-get install -y --force-yes \
   apt-transport-https \
   build-essential \
+  curl \
   dfu-programmer \
   etherwake \
   git \
@@ -131,7 +132,7 @@ RUN cd /usr/local/bin \
 
 ## Install FHEM (FHEM_VERSION)
 RUN wget https://fhem.de/fhem-${FHEM_VERSION}.deb && dpkg -i fhem-${FHEM_VERSION}.deb \
-  && rm fhem-${FHEM_VERSION}.deb \
+&& rm fhem-${FHEM_VERSION}.deb \
   && userdel fhem
 
 ## add basic configation and scripts
