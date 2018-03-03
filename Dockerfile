@@ -83,7 +83,6 @@ RUN apt-get install -y --force-yes \
 #RUN apt-get install -y --force-yes \
   #at \
   #cron \
-  #curl \
   #bluetooth \
   #bluez-hcidump \
   #bluez \
