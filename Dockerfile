@@ -5,7 +5,7 @@ FROM debian:stretch
 MAINTAINER Joscha Middendorf <joscha.middendorf@me.com>
 
 ENV FHEM_VERSION 5.8
-#ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
 ENV TZ Europe/Berlin
 
