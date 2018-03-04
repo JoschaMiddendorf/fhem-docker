@@ -5,15 +5,15 @@ FROM debian:stretch
 MAINTAINER Joscha Middendorf <joscha.middendorf@me.com>
 
 ENV FHEM_VERSION 5.8
-ENV DEBIAN_FRONTEND noninteractive
+#ENV DEBIAN_FRONTEND noninteractive
 ENV TERM xterm
 ENV TZ Europe/Berlin
 
 ## Install dependencies
-RUN apt-get update \
-  &&  DEBIAN_FRONTEND=noninteractive apt-get install -y -q apt-utils \
-  &&  DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y -q \
-  &&  DEBIAN_FRONTEND=noninteractive apt-get install -y -q \
+RUN apt-get -q -y update \
+  && apt-get -q -y install apt-utils \
+  && apt-get -q -y dist-upgrade \
+  && apt-get -q -y install \
     apt-transport-https \
     build-essential \
     curl \
@@ -32,7 +32,7 @@ RUN apt-get update \
     wget
 
 ## Install perl packages
-RUN apt-get install -y -q \
+RUN apt-get -q -y install \
   libalgorithm-merge-perl \
   libauthen-oath-perl \
   libavahi-compat-libdnssd-dev \
