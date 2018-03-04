@@ -24,7 +24,7 @@ function StartFHEM {
 	echo '-------------------------------------------------------------------------------------------------------------------'
 	echo
 	LOGFILE=/opt/fhem/log/fhem-%Y-%m.log
-	PIDFILE=/opt/fhem/log/fhem.pid 
+	PIDFILE=/opt/fhem/log/fhem.pid
 	SLEEPINTERVAL=0.5
 	TIMEOUT="${TIMEOUT:-10}"
 	echo "FHEM_VERSION = $FHEM_VERSION"
