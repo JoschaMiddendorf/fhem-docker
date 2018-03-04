@@ -11,9 +11,9 @@ ENV TZ Europe/Berlin
 
 ## Install dependencies
 RUN apt-get update \
-  &&  apt-get install -y -q apt-utils \
-  &&  apt-get dist-upgrade -y -q \
-  &&  apt-get install -y -q \
+  &&  DEBIAN_FRONTEND=noninteractive apt-get install -y -q apt-utils \
+  &&  DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y -q \
+  &&  DEBIAN_FRONTEND=noninteractive apt-get install -y -q \
     apt-transport-https \
     build-essential \
     curl \
