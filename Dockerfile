@@ -29,12 +29,10 @@ RUN apt-get install -y \
   sudo \
   telnet-ssl \
   usbutils \
-  wget \
-  && apt-get autoremove \
-  && apt-get clean
+  wget
 
 ## Install perl packages
-RUN apt-get install -y --force-yes \
+RUN apt-get install -y \
   libalgorithm-merge-perl \
   libauthen-oath-perl \
   libavahi-compat-libdnssd-dev \
@@ -82,7 +80,7 @@ RUN apt-get install -y --force-yes \
   libxml-simple-perl
   
 ## Install more dependencies
-#RUN apt-get install -y --force-yes \
+#RUN apt-get install -y \
   #at \
   #cron \
   #bluetooth \
@@ -104,7 +102,7 @@ RUN apt-get install -y --force-yes \
   #nodejs
 
 ## Install more perl packages
-#RUN apt-get install -y --force-yes \
+#RUN apt-get install -y \
   #libav-tools \
   #libcrypt-cbc-perl \
   #libdbd-mysql \
@@ -115,7 +113,7 @@ RUN apt-get install -y --force-yes \
   #libmime-lite-perl \
   #libsnmp-perl
 
-## Clean up APT when done.                ###################################
+## Clean up APT when done
 RUN apt-get autoremove \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
