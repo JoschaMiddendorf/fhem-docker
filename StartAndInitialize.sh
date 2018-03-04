@@ -24,10 +24,15 @@ function StartFHEM {
 	echo '-------------------------------------------------------------------------------------------------------------------'
 	echo
 	LOGFILE=/opt/fhem/log/fhem-%Y-%m.log
-	PIDFILE=/opt/fhem/log/fhem.pid 
-	SLEEPINTERVAL=0.2
+	PIDFILE=/opt/fhem/log/fhem.pid
+	SLEEPINTERVAL=0.5
 	TIMEOUT="${TIMEOUT:-10}"
+	echo "FHEM_VERSION = $FHEM_VERSION"
+	echo "TZ = $TZ"
 	echo "TIMEOUT = $TIMEOUT"
+	echo
+	echo '-------------------------------------------------------------------------------------------------------------------'
+	echo
 	
 	## Function to print FHEM log in incremental steps to the docker log.
 	test -f "$(date +"$LOGFILE")" && OLDLINES=$(wc -l < "$(date +"$LOGFILE")") || OLDLINES=0
@@ -40,11 +45,6 @@ function StartFHEM {
         	test ! -z "$1" && grep -q "$1" <(tail -n "$LINES" "$(date +"$LOGFILE")") && FOUND=true || FOUND=false
         	OLDLINES=$NEWLINES
 	}
-
-	#until $FOUND; do
-        #	sleep $SLEEPINTERVAL
-        #	PrintNewLines "Server shutdown"
-	#done
 	
 	## Docker stop sinal handler
 	function StopFHEM {
