@@ -10,29 +10,29 @@ ENV TERM xterm
 ENV TZ Europe/Berlin
 
 ## Install dependencies
-RUN apt-get update
-RUN apt-get install -y apt-utils
-RUN apt-get dist-upgrade -y
-RUN apt-get install -y \
-  apt-transport-https \
-  build-essential \
-  curl \
-  dfu-programmer \
-  etherwake \
-  git \
-  nano \
-  perl \
-  screenfetch \
-  snmp \
-  snmpd \
-  sqlite3 \
-  sudo \
-  telnet-ssl \
-  usbutils \
-  wget
+RUN apt-get update \
+  &&  apt-get install -y -q apt-utils \
+  &&  apt-get dist-upgrade -y -q \
+  &&  apt-get install -y -q \
+    apt-transport-https \
+    build-essential \
+    curl \
+    dfu-programmer \
+    etherwake \
+    git \
+    nano \
+    perl \
+    screenfetch \
+    snmp \
+    snmpd \
+    sqlite3 \
+    sudo \
+    telnet-ssl \
+    usbutils \
+    wget
 
 ## Install perl packages
-RUN apt-get install -y \
+RUN apt-get install -y -q \
   libalgorithm-merge-perl \
   libauthen-oath-perl \
   libavahi-compat-libdnssd-dev \
