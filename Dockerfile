@@ -117,12 +117,12 @@ RUN \
 
   ## Customize console
   && echo "alias ll='ls -lah --color=auto'" >> /root/.bashrc \
-  && echo "screenfetch" >> /root/.bashrc
+  && echo "screenfetch" >> /root/.bashrc \
 
   ## Install Speedtest-CLI 
   && cd /usr/local/bin \
   && wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py \
-  && chmod +x speedtest-cli
+  && chmod +x speedtest-cli \
 
   ## Install FHEM (FHEM_VERSION)
   && wget https://fhem.de/fhem-${FHEM_VERSION}.deb && dpkg -i fhem-${FHEM_VERSION}.deb \
