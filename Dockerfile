@@ -10,7 +10,7 @@ ENV TERM xterm
 ENV TZ Europe/Berlin
 
 ## Install dependencies
-RUN apt-get update
+RUN apt-get update \
     && apt-get -q -y dist-upgrade \
     && apt-get -q -y install \
     apt-transport-https \
