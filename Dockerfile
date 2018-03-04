@@ -1,6 +1,6 @@
 ## Copyright (c) 2018 Joscha Middendorf
 
-FROM debian:jessie
+FROM debian:stretch
 
 MAINTAINER Joscha Middendorf <joscha.middendorf@me.com>
 
