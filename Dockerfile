@@ -13,7 +13,6 @@ ENV TZ Europe/Berlin
 RUN apt-get update
 RUN apt-get install -y apt-utils
 RUN apt-get dist-upgrade -y
-#RUN apt-get install -y --force-yes --no-install-recommends apt-utils
 RUN apt-get install -y \
   apt-transport-https \
   build-essential \
@@ -30,7 +29,10 @@ RUN apt-get install -y \
   sudo \
   telnet-ssl \
   usbutils \
-  wget
+  wget \
+  && apt-get autoremove \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ## Install perl packages
 RUN apt-get install -y --force-yes \
