@@ -11,7 +11,7 @@ ENV TZ Europe/Berlin
 
 ## Install dependencies
 RUN apt-get -q -y update \
-    && apt-get install -y --no-install-recommends apt-utils
+    && apt-get install -y apt-utils
 RUN apt-get -q -y dist-upgrade \
     && apt-get -q -y install \
     apt-transport-https \
@@ -120,7 +120,7 @@ RUN apt-get autoremove \
 
 ## Configure Timezone
 #RUN echo ${TZ} > /etc/timezone && dpkg-reconfigure tzdata
-RUN timedatectl set-timezone ${TZ} && dpkg-reconfigure tzdata
+#RUN timedatectl set-timezone ${TZ} && dpkg-reconfigure tzdata
 
 ## Customize console
 RUN echo "alias ll='ls -lah --color=auto'" >> /root/.bashrc \
