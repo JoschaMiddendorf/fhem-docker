@@ -31,8 +31,7 @@ RUN apt-get install -y \
   usbutils \
   wget \
   && apt-get autoremove \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  && apt-get clean
 
 ## Install perl packages
 RUN apt-get install -y --force-yes \
