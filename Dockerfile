@@ -115,7 +115,8 @@ RUN apt-get install -y --force-yes \
   #libsnmp-perl
 
 ## Clean up APT when done.                ###################################
-RUN apt-get clean \
+RUN apt-get autoremove \
+  && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ## Configure Timezone
