@@ -119,7 +119,8 @@ RUN apt-get autoremove \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ## Configure Timezone
-RUN echo ${TZ} > /etc/timezone && dpkg-reconfigure tzdata
+#RUN echo ${TZ} > /etc/timezone && dpkg-reconfigure tzdata
+RUN timedatectl set-timezone ${TZ} && dpkg-reconfigure tzdata
 
 ## Customize console
 RUN echo "alias ll='ls -lah --color=auto'" >> /root/.bashrc \
