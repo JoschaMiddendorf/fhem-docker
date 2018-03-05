@@ -81,5 +81,3 @@ ___
 [![](https://images.microbadger.com/badges/version/diggewuff/fhem-docker.svg)](https://microbadger.com/images/diggewuff/fhem-docker "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/diggewuff/fhem-docker.svg)](https://microbadger.com/images/diggewuff/fhem-docker "Get your own image badge on microbadger.com")
 
 [![](https://images.microbadger.com/badges/version/diggewuff/fhem-docker:beta.svg)](https://microbadger.com/images/diggewuff/fhem-docker:beta "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/diggewuff/fhem-docker:beta.svg)](https://microbadger.com/images/diggewuff/fhem-docker:beta "Get your own image badge on microbadger.com")
-
-[![](https://images.microbadger.com/badges/version/diggewuff/fhem-docker:experimental.svg)](https://microbadger.com/images/diggewuff/fhem-docker:experimental "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/diggewuff/fhem-docker:experimental.svg)](https://microbadger.com/images/diggewuff/fhem-docker:experimental "Get your own image badge on microbadger.com")
