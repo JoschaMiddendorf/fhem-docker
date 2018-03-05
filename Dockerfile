@@ -119,8 +119,8 @@ RUN \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ## Install Perl Modules from CPAN
- RUN cpan Crypt::Rijndael_PP
-    && cpan Net::MQTT::Constants
+ RUN cpan Crypt::Rijndael_PP \
+    && cpan Net::MQTT::Constants \
     && cpan Net::MQTT::Simple
 
 ## Customize console
