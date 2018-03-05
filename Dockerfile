@@ -62,12 +62,15 @@ RUN \
         libclass-isa-perl \
         libcommon-sense-perl \
         libconvert-base32-perl \
+        libcrypt-cbc-perl \
+        libcrypt-ecb-perl \
         libcrypt-urandom-perl \
         libdata-dump-perl \
         libdatetime-format-strptime-perl \
         libdbd-sqlite3-perl \
         libdbi-perl \
         libdevice-serialport-perl \
+        libdigest-md5-perl \
         libdpkg-perl \
         liberror-perl \
         libfile-copy-recursive-perl \
@@ -114,6 +117,11 @@ RUN \
     && apt-get autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+## Install Perl Modules from CPAN
+ RUN cpan Crypt::Rijndael_PP
+    && cpan Net::MQTT::Constants
+    && cpan Net::MQTT::Simple
 
 ## Customize console
 RUN echo "alias ll='ls -lah --color=auto'" >> /root/.bashrc \
