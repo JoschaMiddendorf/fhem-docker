@@ -86,6 +86,7 @@ RUN \
         libmail-imapclient-perl \
         libmail-sendmail-perl \
         libmime-base64-perl \
+        libmodule-pluggable-perl \
         libnet-telnet-perl \
         libsoap-lite-perl \
         libsocket-perl \
