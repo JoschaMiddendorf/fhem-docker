@@ -1,6 +1,6 @@
 # Docker Container for FHEM House-Automation-System
 ## Full install with all dependencies
-This image of FHEM is based on debian and runs on every possible docker host. The master branch (latest) is currently based on debian jessie and the beta and experimental branches (beta & experimental) are currently running on debian stretch. It has several perl modules installed, however if you are missing any modules packages or features don't hesitate to ask for it by opening an isuue on GitHub. 
+This image of FHEM is based on debian and runs on every possible docker host. The master branch (latest) is currently based on debian jessie and the beta branch is on debian stretch. It has several perl modules installed, however if you are missing any modules packages or features don't hesitate to ask for it by opening an isuue on GitHub. 
 https://github.com/JoschaMiddendorf/fhem-docker/issues/new
 
 You can make your entire configuration persitent across updates and restarts by mapping the volume /opt/fhem to a directory of your choise. 
@@ -49,9 +49,14 @@ and mapp them to the container by adding argument like this to the run command:
 Timeout interval, in seconds, before container stopps when FHEM process terminates unexpectedly.
 
     -e TIMEOUT=10
+    
 Your timezone according to POSIX (http://lmgtfy.com/?q=POSIX+timezones), to configute the container to have your local time.
 
     -e TZ=Europe/Berlin
+    
+The user credentials for the first WEB Device in your FHEM config. Without that the Healthcheck will show Unhealthy if you use basic auth in FHEM!
+
+    -e HEALTHCHECKCREDENTIALS=user:password
 ___
 ### Advices:
 #### Keep the folowing lines in your config files or add them if you are migrating from an existing config.
