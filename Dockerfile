@@ -129,9 +129,8 @@ RUN echo "alias ll='ls -lah --color=auto'" >> /root/.bashrc \
     && echo "screenfetch" >> /root/.bashrc
 
 ## Install Speedtest-CLI 
-RUN cd /usr/local/bin \
-    && wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py \
-    && chmod +x speedtest-cli
+RUN wget -O /usr/local/bin/speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py \
+    && chmod +x /usr/local/bin/speedtest-cli
 
   ## Install FHEM (FHEM_VERSION)
 RUN wget https://fhem.de/fhem-${FHEM_VERSION}.deb \
