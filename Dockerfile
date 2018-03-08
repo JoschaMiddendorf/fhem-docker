@@ -24,6 +24,7 @@ RUN \
         git \
         nano \
         perl \
+        python \
         screenfetch \
         snmp \
         snmpd \
