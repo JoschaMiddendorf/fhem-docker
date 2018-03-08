@@ -97,6 +97,7 @@ RUN \
         libsocket6-perl \
         libswitch-perl \
         libsys-hostname-long-perl \
+        libsys-statistics-linux-perl \
         libterm-readkey-perl \
         libterm-readline-perl-perl \
         libtext-csv-perl \
