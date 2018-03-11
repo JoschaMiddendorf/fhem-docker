@@ -1,6 +1,6 @@
 # Docker Container for FHEM House-Automation-System
 ## Full install with all dependencies
-This image of FHEM is based on debian and runs on every possible docker host. The master branch (latest) is currently based on debian jessie and the beta and experimental branches (beta & experimental) are currently running on debian stretch. It has several perl modules installed, however if you are missing any modules packages or features don't hesitate to ask for it by opening an isuue on GitHub. 
+This image of FHEM is based on Debian and runs on every possible docker host. The master branch (latest) is based on Debian Stretch. It has several Perl Modules installed, however if you are missing any modules packages or features don't hesitate to ask for it by opening an isuue on GitHub,I,d love to improve this container in the future. 
 https://github.com/JoschaMiddendorf/fhem-docker/issues/new
 
 You can make your entire configuration persitent across updates and restarts by mapping the volume /opt/fhem to a directory of your choise. 
@@ -14,7 +14,7 @@ Furthermore there are some goodies, predefinitions and helpers in the initial co
 ___
 ### Features
 * mapable and self initialising volume /opt/fhem
-* Exposed ports: 7072 for FHEM-Tellnet and 8083-8089 for FHEM Web, Tablet UI and Webhooks.
+* Exposed ports: 7072 for FHEM-Tellnet and 8083-8089 for FHEM Web instances, Tablet UI and Webhooks. (you dont't have to expose them all)
 * Preinstalled haus-automatisierung.com theme
 * Preconfigured nice looking FHEM Web
 * Live FHEM log output via docker
@@ -49,31 +49,36 @@ and mapp them to the container by adding argument like this to the run command:
 Timeout interval, in seconds, before container stopps when FHEM process terminates unexpectedly.
 
     -e TIMEOUT=10
+    
 Your timezone according to POSIX (http://lmgtfy.com/?q=POSIX+timezones), to configute the container to have your local time.
 
     -e TZ=Europe/Berlin
+    
+The user credentials for the first WEB Device in your FHEM config. Without that the Healthcheck will show Unhealthy if you use basic auth in FHEM!
+
+    -e HEALTHCHECKCREDENTIALS=user:password
 ___
 ### Advices:
 #### Keep the folowing lines in your config files or add them if you are migrating from an existing config.
 
-    attr global logfile /opt/fhem//log/fhem-%Y-%m.log
-    attr global modpath /opt/fhem/
+    attr global logfile /opt/fhem/log/fhem-%Y-%m.log
+    attr global modpath /opt/fhem
     attr global nofork 0
     attr global pidfilename /opt/fhem/log/fhem.pid
     attr global updateInBackground 1
     define telnetPort telnet 7072 global
 #### And furthermore    
-Make shure do always use absolout paths in your fhem.cfg beginning with /opt/fhem/ not with ./ !
+Make shure to always use absolout paths in your fhem.cfg beginning with /opt/fhem/ not with ./ !
 ___
 ### Commands:
-##### Running containers:
+##### Show Running containers:
     docker ps
-##### Attach shell to container with:
+##### Attach shell to container:
     docker exec -it fhem-docker /bin/bash
-##### View log of container with:
+##### View live log output of container and FHEM:
     docker logs -f fhem-docker
     
-#### GUI FHEM:
+#### WebGUI of FHEM:
     http://ipaddress:8083
 ___
 [![Donate](https://img.shields.io/badge/Donate-PayPal-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=L98P3QMZFDHCN)
