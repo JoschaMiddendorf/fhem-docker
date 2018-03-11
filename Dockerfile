@@ -146,6 +146,7 @@ COPY StartAndInitialize.sh healthcheck.sh /root/
 RUN chmod +x /root/*.sh		
 
 ## Compress FHEM base data from /opt/fhem/ to /root/ for later initialisation of volumes
+
 RUN /root/StartAndInitialize.sh initialize /opt/fhem
 
 ## open ports 
