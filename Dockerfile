@@ -84,6 +84,7 @@ RUN \
         libio-socket-ip-perl \
         libio-socket-multicast-perl \
         libio-socket-ssl-perl \
+        libio-socket-timeout-perl \
         libjson-perl \
         libjson-xs-perl \
         liblist-moreutils-perl \
