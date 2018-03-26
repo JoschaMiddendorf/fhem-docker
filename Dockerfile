@@ -93,6 +93,7 @@ RUN \
         libmime-base64-perl \
         libmodule-pluggable-perl \
         libnet-telnet-perl \
+        librpc-xml-perl \
         libsoap-lite-perl \
         libsocket-perl \
         libsocket6-perl \
