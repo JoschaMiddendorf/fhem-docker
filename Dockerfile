@@ -84,6 +84,7 @@ RUN \
         libio-socket-ip-perl \
         libio-socket-multicast-perl \
         libio-socket-ssl-perl \
+        libio-socket-timeout-perl \
         libjson-perl \
         libjson-xs-perl \
         liblist-moreutils-perl \
@@ -92,6 +93,7 @@ RUN \
         libmime-base64-perl \
         libmodule-pluggable-perl \
         libnet-telnet-perl \
+        librpc-xml-perl \
         libsoap-lite-perl \
         libsocket-perl \
         libsocket6-perl \
