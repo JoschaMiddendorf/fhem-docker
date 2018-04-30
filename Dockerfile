@@ -123,10 +123,11 @@ RUN \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ## Install Perl Modules from CPAN
- RUN cpan installCrypt::Rijndael_PP \
-    && cpan install Net::MQTT::Constants \
-    && cpan install Net::MQTT::Simple \
-    && cpan install Text::Diff
+ RUN cpan install \
+    Crypt::Rijndael_PP \
+    Net::MQTT::Constants \
+    Net::MQTT::Simple \
+    Text::Diff
 
 ## Customize console
 RUN echo "alias ll='ls -lah --color=auto'" >> /root/.bashrc \
