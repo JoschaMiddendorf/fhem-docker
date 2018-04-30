@@ -81,7 +81,7 @@ function StartFHEM {
 	echo 'Starting FHEM:'
 	echo
 	trap "StopFHEM" SIGTERM
-	perl /opt/fhem/fhem.pl $CONFIGTYPE
+	perl /opt/fhem/fhem.pl "$CONFIGTYPE"
 	until $FOUND; do										## Wait for FHEM to start up
 		sleep $SLEEPINTERVAL
         	PrintNewLines "Server started"
