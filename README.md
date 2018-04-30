@@ -20,6 +20,7 @@ ___
 * Live FHEM log output via docker
 * Reliable start script for gracefull restart and shutdown handling without sending kill signals to FHEM
 * Docker Healthcheck to check FHEMs first defined FHEMWEB frontend for actual reachability
+* Configurable start method fhem.cfg or configDB
 * Constantly improved and maintained 
 * Feature requests and feedback is highly appreciated
 ___
