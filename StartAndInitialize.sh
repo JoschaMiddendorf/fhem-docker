@@ -24,7 +24,7 @@ function StartFHEM {
 	PIDFILE=/opt/fhem/log/fhem.pid
 	SLEEPINTERVAL=0.5
 	TIMEOUT="${TIMEOUT:-10}"
-	CONFIGTYPE=${CONFIGTYPE:-"/opt/fhem/fhem.cfg"}
+	CONFIGTYPE=${CONFIGTYPE:-"fhem.cfg"}
 	
 	echo
 	echo '-------------------------------------------------------------------------------------------------------------------'
@@ -81,7 +81,8 @@ function StartFHEM {
 	echo 'Starting FHEM:'
 	echo
 	trap "StopFHEM" SIGTERM
-	perl /opt/fhem/fhem.pl "$CONFIGTYPE"
+	cd /opt/fhem
+	perl fhem.pl "$CONFIGTYPE"
 	until $FOUND; do										## Wait for FHEM to start up
 		sleep $SLEEPINTERVAL
         	PrintNewLines "Server started"
