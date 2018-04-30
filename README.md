@@ -57,9 +57,13 @@ Your timezone according to POSIX (http://lmgtfy.com/?q=POSIX+timezones), to conf
 The user credentials for the first WEB Device in your FHEM config. Without that the Healthcheck will show Unhealthy if you use basic auth in FHEM!
 
     -e HEALTHCHECKCREDENTIALS=user:password
+    "configDB"
+The ConfigType you want to use, default is "/opt/fhem/fhem.cfg" use "configDB" if you want to start FHEM with ConfigDB instead of fhem.cfg file!
+
+    -e CONFIGTYPE=configDB
 ___
 ### Advices:
-#### Keep the folowing lines in your config files or add them if you are migrating from an existing config.
+#### Keep the folowing lines in your configuration or add them if you are migrating from an existing config.
 
     attr global logfile /opt/fhem/log/fhem-%Y-%m.log
     attr global modpath /opt/fhem
@@ -68,7 +72,7 @@ ___
     attr global updateInBackground 1
     define telnetPort telnet 7072 global
 #### And furthermore    
-Make shure to always use absolout paths in your fhem.cfg beginning with /opt/fhem/ not with ./ !
+Make sure to always use absolout paths in your configuration beginning with /opt/fhem/ not with ./ !
 ___
 ### Commands:
 ##### Show Running containers:
