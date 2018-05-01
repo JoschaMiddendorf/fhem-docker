@@ -17,6 +17,7 @@ RUN \
     ## Install dependencies
     && apt-get -qqy install \
         apt-transport-https \
+        bluez \
         build-essential \
         curl \
         dfu-programmer \
@@ -37,7 +38,6 @@ RUN \
         #cron \
         #bluetooth \
         #bluez-hcidump \
-        #bluez \
         #blueman 
         #dialog \
         #g++ \
