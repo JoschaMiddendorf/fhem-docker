@@ -13,12 +13,19 @@
 ##      via exit code 0/1 to set docker health status to healthy/unhealthy.
 ##
 ##################################################################################################
+#set -x
+CONFIGTYPE=${CONFIGTYPE:-"fhem.cfg"}
 
-CONFIG_FILE=/opt/fhem/fhem.cfg
-if [ -f "${CONFIG_FILE}" ]; then
-        FHEMWEB_PORT=$(grep -m 1 "define .* FHEMWEB .* global$" ${CONFIG_FILE} | awk '{print $4}')
-        FHEMWEB_NAME=$(grep -m 1 "define .* FHEMWEB .* global$" ${CONFIG_FILE} | awk '{print $2}')
-        grep -q "^attr $FHEMWEB_NAME HTTPS 1$" ${CONFIG_FILE} && HTTP_S='https' || HTTP_S='http'
+if [ "$CONFIGTYPE" = "fhem.cfg" ]; then
+        CONFIG_FILE=/opt/fhem/fhem.cfg
+        if [ -f "${CONFIG_FILE}" ]; then
+                FHEMWEB_PORT=$(grep -m 1 "define .* FHEMWEB .* global$" ${CONFIG_FILE} | awk '{print $4}')
+                FHEMWEB_NAME=$(grep -m 1 "define .* FHEMWEB .* global$" ${CONFIG_FILE} | awk '{print $2}')
+                grep -q "^attr $FHEMWEB_NAME HTTPS 1$" ${CONFIG_FILE} && HTTP_S='https' || HTTP_S='http'
+        fi
+else
+        FHEMWEB_PORT=$HEALTHCHECK_PORT
+        $HEALTHCHECK_HTTPS && HTTP_S='https' || HTTP_S='http'
 fi
 
 PORT=${FHEMWEB_PORT:-8083}
@@ -26,3 +33,4 @@ PORT=${FHEMWEB_PORT:-8083}
 test -z "$HEALTHCHECKCREDENTIALS" && CREDENTIALS="" || CREDENTIALS="--user $HEALTHCHECKCREDENTIALS"
 
 curl -ks $CREDENTIALS --fail "$HTTP_S"://localhost:"${PORT}" && exit 0 || exit 1
+#set +x
