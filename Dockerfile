@@ -37,8 +37,6 @@ RUN \
         #at \
         #cron \
         #bluetooth \
-        #bluez-hcidump \
-        #blueman 
         #dialog \
         #g++ \
         #gcc \
