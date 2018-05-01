@@ -59,7 +59,7 @@ The user credentials for the first WEB Device in your FHEM config. Without that 
 
     -e HEALTHCHECKCREDENTIALS=user:password
     "configDB"
-The ConfigType you want to use, default is "/opt/fhem/fhem.cfg" use "configDB" if you want to start FHEM with ConfigDB instead of fhem.cfg file!
+The ConfigType you want to use, default is "fhem.cfg", use "configDB" if you want to start FHEM with ConfigDB instead of fhem.cfg file!
 
     -e CONFIGTYPE=configDB
 ___
