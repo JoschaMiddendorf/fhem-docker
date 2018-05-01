@@ -65,7 +65,7 @@ Furthermore, if you are using configDB, Healthcheck can't determine your FHEM We
 
     -e CONFIGTYPE=configDB
     -e HEALTHCHECK_PORT=8083
-    -e HEALTHCHECK_HTTPS=1
+    -e HEALTHCHECK_HTTPS=true
 ___
 ### ADVICES:
 #### Keep the folowing lines in your configuration or add them if you are migrating from an existing config.
