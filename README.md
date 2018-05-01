@@ -58,7 +58,7 @@ Your timezone according to POSIX (http://lmgtfy.com/?q=POSIX+timezones), to conf
 The user credentials for the first WEB Device in your FHEM config. Without that the Healthcheck will show Unhealthy if you use basic auth in FHEM!
 
     -e HEALTHCHECKCREDENTIALS=user:password
-    "configDB"
+
 The ConfigType you want to use, default is "fhem.cfg", use "configDB" if you want to start FHEM with ConfigDB instead of fhem.cfg file!
 CAUTION: An initial start of these container with configDB isn't intended in my routines. Terefore if you want to use it, migrate from fhem.cfg or take care to follow the ADVICES below.
 Furthermore, if you are using configDB, Healthcheck can't determine your FHEM Web port and if you are using https from your fhem.cfg file, therefore also specify them by the following variables.
