@@ -24,8 +24,8 @@ if [ "$CONFIGTYPE" = "fhem.cfg" ]; then
                 grep -q "^attr $FHEMWEB_NAME HTTPS 1$" ${CONFIG_FILE} && HTTP_S='https' || HTTP_S='http'
         fi
 else
-        FHEMWEB_PORT = $HEALTHCHECK_PORT
-        test $HEALTHCHECK_HTTPS && HTTP_S='https' || HTTP_S='http'
+        FHEMWEB_PORT=$HEALTHCHECK_PORT
+        test "$HEALTHCHECK_HTTPS" && HTTP_S='https' || HTTP_S='http'
 fi
 
 PORT=${FHEMWEB_PORT:-8083}
