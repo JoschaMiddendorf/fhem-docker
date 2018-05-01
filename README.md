@@ -1,6 +1,6 @@
 # Docker Container for FHEM House-Automation-System
 ## Full install with all dependencies
-This image of FHEM is based on Debian and runs on every possible docker host. The master branch (latest) is based on Debian Stretch. It has several Perl Modules installed, however if you are missing any modules packages or features don't hesitate to ask for it by opening an isuue on GitHub,I,d love to improve this container in the future. 
+This image of FHEM is based on Debian and runs on every possible docker host. The master branch (latest) is based on Debian Stretch. It has several Perl Modules installed, however if you are missing any modules packages or features don't hesitate to ask for it by opening an issue on GitHub,I,d love to improve this container in the future. 
 https://github.com/JoschaMiddendorf/fhem-docker/issues/new
 
 You can make your entire configuration persitent across updates and restarts by mapping the volume /opt/fhem to a directory of your choise. 
