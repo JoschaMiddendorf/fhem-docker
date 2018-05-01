@@ -25,7 +25,7 @@ if [ "$CONFIGTYPE" = "fhem.cfg" ]; then
         fi
 else
         FHEMWEB_PORT=$HEALTHCHECK_PORT
-        [ "$HEALTHCHECK_HTTPS" = "true" ] && HTTP_S='https' || HTTP_S='http'
+        $HEALTHCHECK_HTTPS && HTTP_S='https' || HTTP_S='http'
 fi
 
 PORT=${FHEMWEB_PORT:-8083}
