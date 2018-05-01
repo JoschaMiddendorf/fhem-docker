@@ -32,5 +32,5 @@ PORT=${FHEMWEB_PORT:-8083}
 
 test -z "$HEALTHCHECKCREDENTIALS" && CREDENTIALS="" || CREDENTIALS="--user $HEALTHCHECKCREDENTIALS"
 
-curl -ks "$CREDENTIALS" --fail "$HTTP_S"://localhost:"${PORT}" && exit 0 || exit 1
+curl -ks $CREDENTIALS --fail "$HTTP_S"://localhost:"${PORT}" && exit 0 || exit 1
 #set +x
