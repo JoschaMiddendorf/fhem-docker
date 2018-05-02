@@ -106,7 +106,6 @@ RUN \
         libwww-perl \
         libxml-simple-perl \
         #libav-tools \
-        #libcrypt-cbc-perl \
         #libdbd-mysql \
         #libdbd-mysql-perl \
         #libdbd-pg-perl \
