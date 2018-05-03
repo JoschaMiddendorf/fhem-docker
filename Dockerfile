@@ -121,7 +121,8 @@ RUN \
 
 ## Install Perl Modules from CPAN
  RUN cpan install \
-    Crypt::Rijndael_PP \
+    Crypt::Cipher::AES \
+    #Crypt::Rijndael_PP \
     Net::MQTT::Constants \
     Net::MQTT::Simple \
     Text::Diff
