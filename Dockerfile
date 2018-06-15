@@ -19,6 +19,7 @@ RUN \
         apt-transport-https \
         bluez \
         build-essential \
+        cpanminus \
         curl \
         dfu-programmer \
         etherwake \
@@ -125,6 +126,7 @@ RUN \
     #Crypt::Rijndael_PP \
     Net::MQTT::Constants \
     Net::MQTT::Simple \
+    Net::WebSocket::Server \
     Text::Diff
 
 ## Customize console
