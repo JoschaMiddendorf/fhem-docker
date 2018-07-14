@@ -127,6 +127,7 @@ RUN \
     Net::MQTT::Constants \
     Net::MQTT::Simple \
     Net::WebSocket::Server \
+
     Text::Diff
 
 ## Customize console
