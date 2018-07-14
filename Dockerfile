@@ -19,6 +19,7 @@ RUN \
         apt-transport-https \
         bluez \
         build-essential \
+        cpanminus \
         curl \
         dfu-programmer \
         etherwake \
@@ -106,7 +107,6 @@ RUN \
         libwww-perl \
         libxml-simple-perl \
         #libav-tools \
-        #libcrypt-cbc-perl \
         #libdbd-mysql \
         #libdbd-mysql-perl \
         #libdbd-pg-perl \
@@ -122,9 +122,12 @@ RUN \
 
 ## Install Perl Modules from CPAN
  RUN cpan install \
-    Crypt::Rijndael_PP \
+    Crypt::Cipher::AES \
+    #Crypt::Rijndael_PP \
     Net::MQTT::Constants \
     Net::MQTT::Simple \
+    Net::WebSocket::Server \
+
     Text::Diff
 
 ## Customize console
