@@ -13,7 +13,7 @@ RUN \
     ## update and upgrade APT
     apt-get update \
     && apt-get -qqy dist-upgrade \
-
+    \
     ## Install dependencies
     && apt-get -qqy install \
         apt-transport-https \
@@ -51,7 +51,7 @@ RUN \
         #mysql-client \
         #nodejs \
         #vim \
-
+    \
     ## Install perl packages
     && apt-get -qqy install \
         libalgorithm-merge-perl \
@@ -114,7 +114,7 @@ RUN \
         #libio-socket-timeout-perl \
         #libmime-lite-perl \
         #libsnmp-perl \
-
+    \
     ## Clean up APT when done
     && apt-get autoremove \
     && apt-get clean \
@@ -127,7 +127,6 @@ RUN \
     Net::MQTT::Constants \
     Net::MQTT::Simple \
     Net::WebSocket::Server \
-
     Text::Diff
 
 ## Customize console
