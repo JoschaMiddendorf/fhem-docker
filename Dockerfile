@@ -77,6 +77,7 @@ RUN \
         libfile-fcntllock-perl \
         libgd-graph-perl \
         libgd-text-perl \
+        libhtml-tableextract-perl \
         libimage-info-perl \
         libimage-librsvg-perl \
         libio-socket-inet6-perl \
