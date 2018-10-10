@@ -104,6 +104,7 @@ RUN \
         libterm-readline-perl-perl \
         libtext-csv-perl \
         libtext-diff-perl \
+        libthread-queue-any-perl \
         libtimedate-perl \
         libwww-perl \
         libxml-simple-perl \
