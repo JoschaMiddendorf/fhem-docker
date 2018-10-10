@@ -104,6 +104,7 @@ RUN \
         libterm-readline-perl-perl \
         libtext-csv-perl \
         libtext-diff-perl \
+        libthread-queue-any-perl \
         libtimedate-perl \
         libwww-perl \
         libxml-simple-perl \
@@ -125,12 +126,9 @@ RUN \
  RUN cpan install \
     Crypt::Cipher::AES \
     #Crypt::Rijndael_PP \
-    IO::File \
     Net::MQTT::Constants \
     Net::MQTT::Simple \
     Net::WebSocket::Server \
-    RPC::XML::Client \
-    RPC::XML::Server \
     Text::Diff
 
 ## Customize console
