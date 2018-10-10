@@ -125,9 +125,12 @@ RUN \
  RUN cpan install \
     Crypt::Cipher::AES \
     #Crypt::Rijndael_PP \
+    IO::File \
     Net::MQTT::Constants \
     Net::MQTT::Simple \
     Net::WebSocket::Server \
+    RPC::XML::Client \
+    RPC::XML::Server \
     Text::Diff
 
 ## Customize console
