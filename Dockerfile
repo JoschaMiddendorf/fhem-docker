@@ -30,6 +30,7 @@ RUN \
         screenfetch \
         snmp \
         snmpd \
+        sox \
         sqlite3 \
         sudo \
         telnet-ssl \
@@ -92,11 +93,13 @@ RUN \
         libmail-sendmail-perl \
         libmime-base64-perl \
         libmodule-pluggable-perl \
+        libnet-sip-perl \
         libnet-telnet-perl \
         librpc-xml-perl \
         libsoap-lite-perl \
         libsocket-perl \
         libsocket6-perl \
+        libsox-fmt-mp3 \
         libswitch-perl \
         libsys-hostname-long-perl \
         libsys-statistics-linux-perl \
@@ -128,6 +131,7 @@ RUN \
     #Crypt::Rijndael_PP \
     Net::MQTT::Constants \
     Net::MQTT::Simple \
+    Net::SIP \
     Net::WebSocket::Server \
     Text::Diff
 
@@ -135,7 +139,7 @@ RUN \
 RUN echo "alias ll='ls -lah --color=auto'" >> /root/.bashrc \
     && echo "screenfetch" >> /root/.bashrc
 
-## Install Speedtest-CLI 
+## Install Speedtest-CLI
 RUN wget -O /usr/local/bin/speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py \
     && chmod +x /usr/local/bin/speedtest-cli
 
@@ -149,13 +153,13 @@ RUN wget https://fhem.de/fhem-${FHEM_VERSION}.deb \
 COPY fhem.cfg /opt/fhem/
 COPY controls.txt /opt/fhem/FHEM/
 COPY StartAndInitialize.sh healthcheck.sh /root/
-RUN chmod +x /root/*.sh		
+RUN chmod +x /root/*.sh
 
 ## Compress FHEM base data from /opt/fhem/ to /root/ for later initialisation of volumes
 
 RUN /root/StartAndInitialize.sh initialize /opt/fhem
 
-## open ports 
+## open ports
 EXPOSE 7072 8083 8084 8085 8086 8087 8088 8089
 
 ## add volumes
